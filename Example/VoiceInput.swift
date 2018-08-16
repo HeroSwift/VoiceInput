@@ -75,8 +75,11 @@ public class VoiceInput: UIView {
     var progressLabelTextFont = UIFont.systemFont(ofSize: 15)
     var progressLabelMarginBottom = CGFloat(25)
     
-    var footerButtonCancelText = "取消"
-    var footerButtonSendText = "发送"
+    var playButtonImage = UIImage(named: "play")
+    var stopButtonImage = UIImage(named: "stop")
+    
+    var footerButtonTextCancel = "取消"
+    var footerButtonTextSend = "发送"
     
     var footerButtonTextColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
     var footerButtonTextFont = UIFont.systemFont(ofSize: 15)
@@ -84,7 +87,7 @@ public class VoiceInput: UIView {
     
     var footerButtonBorderColor = UIColor(red: 210 / 255, green: 210 / 255, blue: 210 / 255, alpha: 1)
     var footerButtonBackgroundColorNormal = UIColor.white
-    var footerButtonBackgroundColorPressed = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 1)
+    var footerButtonBackgroundColorPressed = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
     
     //
     // MARK: - 私有属性
@@ -161,31 +164,84 @@ public class VoiceInput: UIView {
     }
     
     private func setup() {
-        backgroundColor = UIColor(red: 245 / 255, green: 245 / 255, blue: 245 / 255, alpha: 1)
+        backgroundColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
     }
     
     public func addLayout() {
-        
-
         addRecordView()
-        
         addPreviewView()
-        
-
     }
     
-    private func addRecordView() {
+    private func startRecord() {
+        recordButton.centerColor = recordButtonBackgroundColorPressed
+        recordButton.setNeedsDisplay()
+        
+        previewButton.isHidden = false
+        deleteButton.isHidden = false
+        
+        guideLabel.isHidden = true
+        durationLabel.isHidden = false
+    }
     
+    private func stopRecord() {
+        
+        if isPreviewButtonPressed {
+            isPreviewing = true
+        }
+        else if isDeleteButtonPressed {
+            
+        }
+        
+        isPreviewButtonPressed = false
+        isDeleteButtonPressed = false
+        
+        recordButton.centerColor = recordButtonBackgroundColorNormal
+        recordButton.setNeedsDisplay()
+        
+        previewButton.isHidden = true
+        deleteButton.isHidden = true
+        
+        guideLabel.isHidden = false
+        durationLabel.isHidden = true
+        
+    }
+    
+    private func cancel() {
+        isPreviewing = false
+    }
+    
+    private func send() {
+        isPreviewing = false
+    }
+    
+    private func startPlay() {
+        playButton.setImage(stopButtonImage!)
+    }
+    
+    private func stopPlay() {
+        playButton.setImage(playButtonImage!)
+    }
+    
+}
+
+//
+// MARK: - 界面搭建
+//
+
+extension VoiceInput {
+    
+    private func addRecordView() {
+        
         recordView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: frame.size)
         addSubview(recordView)
-    
+        
         addRecordButton()
         addPreviewButton()
         addDeleteButton()
         
         addGuideLabel()
         addDurationLabel()
-    
+        
     }
     
     private func addRecordButton() {
@@ -265,11 +321,11 @@ public class VoiceInput: UIView {
         guideLabel.translatesAutoresizingMaskIntoConstraints = false
         
         recordView.addSubview(guideLabel)
-
+        
         let centerXConstraint = NSLayoutConstraint(item: guideLabel, attribute: .centerX, relatedBy: .equal, toItem: recordButton, attribute: .centerX, multiplier: 1.0, constant: 0)
-
+        
         let bottomConstraint = NSLayoutConstraint(item: guideLabel, attribute: .bottom, relatedBy: .equal, toItem: recordButton, attribute: .top, multiplier: 1.0, constant: -1 * guideLabelMarginBottom)
-
+        
         addConstraints([centerXConstraint, bottomConstraint])
         
     }
@@ -281,12 +337,12 @@ public class VoiceInput: UIView {
         durationLabel.text = "00:00"
         durationLabel.textColor = durationLabelTextColor
         durationLabel.font = durationLabelTextFont
-
+        
         durationLabel.sizeToFit()
         durationLabel.translatesAutoresizingMaskIntoConstraints = false
-
+        
         recordView.addSubview(durationLabel)
-
+        
         let centerXConstraint = NSLayoutConstraint(item: durationLabel, attribute: .centerX, relatedBy: .equal, toItem: recordButton, attribute: .centerX, multiplier: 1.0, constant: 0)
         
         let bottomConstraint = NSLayoutConstraint(item: durationLabel, attribute: .bottom, relatedBy: .equal, toItem: recordButton, attribute: .top, multiplier: 1.0, constant: -1 * durationLabelMarginBottom)
@@ -310,8 +366,11 @@ public class VoiceInput: UIView {
     
     private func addPlayButton() {
         
+        playButton.setImage(playButtonImage!)
+        
         playButton.sizeToFit()
         playButton.translatesAutoresizingMaskIntoConstraints = false
+        
         
         previewView.addSubview(playButton)
         
@@ -345,10 +404,8 @@ public class VoiceInput: UIView {
     
     private func addCancelButton() {
         
-        cancelButton.setTitle(footerButtonCancelText, for: .normal)
+        cancelButton.setTitle(footerButtonTextCancel, for: .normal)
         cancelButton.setTitleColor(footerButtonTextColor, for: .normal)
-//        cancelButton.setBackgroundColor(color: footerButtonBackgroundColorNormal, for: .normal)
-//        cancelButton.setBackgroundColor(color: footerButtonBackgroundColorPressed, for: .highlighted)
         
         cancelButton.titleLabel?.font = footerButtonTextFont
         
@@ -358,7 +415,7 @@ public class VoiceInput: UIView {
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         
         previewView.addSubview(cancelButton)
-
+        
         let bottomConstraint = NSLayoutConstraint(item: cancelButton, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1.0, constant: 0)
         
         let leadingConstraint = NSLayoutConstraint(item: cancelButton, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1.0, constant: 0)
@@ -366,6 +423,9 @@ public class VoiceInput: UIView {
         let trailingConstraint = NSLayoutConstraint(item: cancelButton, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1.0, constant: 0)
         
         addConstraints([bottomConstraint, leadingConstraint, trailingConstraint])
+        
+        cancelButton.setBackgroundColor(color: footerButtonBackgroundColorNormal, for: .normal)
+        cancelButton.setBackgroundColor(color: footerButtonBackgroundColorPressed, for: .highlighted)
         
         cancelButton.onPress = {
             self.cancel()
@@ -375,10 +435,8 @@ public class VoiceInput: UIView {
     
     private func addSendButton() {
         
-        sendButton.setTitle(footerButtonSendText, for: .normal)
+        sendButton.setTitle(footerButtonTextSend, for: .normal)
         sendButton.setTitleColor(footerButtonTextColor, for: .normal)
-//        sendButton.setBackgroundColor(color: footerButtonBackgroundColorNormal, for: .normal)
-//        sendButton.setBackgroundColor(color: footerButtonBackgroundColorPressed, for: .highlighted)
         
         sendButton.titleLabel?.font = footerButtonTextFont
         
@@ -393,63 +451,15 @@ public class VoiceInput: UIView {
         let leadingConstraint = NSLayoutConstraint(item: sendButton, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1.0, constant: 0)
         
         let trailingConstraint = NSLayoutConstraint(item: sendButton, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1.0, constant: 0)
-
+        
         addConstraints([bottomConstraint, leadingConstraint, trailingConstraint])
+        
+        sendButton.setBackgroundColor(color: footerButtonBackgroundColorNormal, for: .normal)
+        sendButton.setBackgroundColor(color: footerButtonBackgroundColorPressed, for: .highlighted)
         
         sendButton.onPress = {
             self.send()
         }
-        
-    }
-    
-    private func startRecord() {
-        recordButton.centerColor = recordButtonBackgroundColorPressed
-        recordButton.setNeedsDisplay()
-        
-        previewButton.isHidden = false
-        deleteButton.isHidden = false
-        
-        guideLabel.isHidden = true
-        durationLabel.isHidden = false
-        
-    }
-    
-    private func stopRecord() {
-        
-        if isPreviewButtonPressed {
-            isPreviewing = true
-        }
-        else if isDeleteButtonPressed {
-            
-        }
-        
-        isPreviewButtonPressed = false
-        isDeleteButtonPressed = false
-        
-        recordButton.centerColor = recordButtonBackgroundColorNormal
-        recordButton.setNeedsDisplay()
-        
-        previewButton.isHidden = true
-        deleteButton.isHidden = true
-        
-        guideLabel.isHidden = false
-        durationLabel.isHidden = true
-        
-    }
-    
-    @objc private func cancel() {
-        isPreviewing = false
-    }
-    
-    @objc private func send() {
-        isPreviewing = false
-    }
-    
-    private func startPlay() {
-        
-    }
-    
-    private func stopPlay() {
         
     }
     
@@ -463,6 +473,10 @@ public class VoiceInput: UIView {
     }
     
 }
+
+//
+// MARK: - 圆形按钮的事件响应
+//
 
 extension VoiceInput: CircleViewDelegate {
     
@@ -517,6 +531,10 @@ extension VoiceInput: CircleViewDelegate {
     }
     
 }
+
+//
+// MARK: - 辅助方法
+//
 
 extension VoiceInput {
     
