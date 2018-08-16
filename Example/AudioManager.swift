@@ -1,7 +1,7 @@
 
 import AVFoundation
 
-public class AudioManager {
+public class AudioManager: NSObject {
 
     // 录音器
     var recorder: AVAudioRecorder?
@@ -16,7 +16,7 @@ public class AudioManager {
     var isPlaying = false
     
     // 文件扩展名
-    var audioExtname = ".m4a"
+    var audioExtname = ".aac"
     
     // 音频格式
     var audioFormat = kAudioFormatMPEG4AAC
@@ -34,75 +34,59 @@ public class AudioManager {
     var audioSampleRate = 44100.0
     
     // 保存录音文件的目录
-    var saveDir = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first
+    var fileDir = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first
     
     // 当前正在录音的文件路径
-    var savePath: String?
+    var filePath: String?
     
-    // 刷新时长的 timer
-    var timer: Timer?
+    // 支持的最长录音时长
+    var maxDuration: TimeInterval = 60
+
+    // 录音时长
+    var duration: TimeInterval?
     
-    private func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1000 / 60, target: self, selector: #selector(AudioManager.onTimeUpdate), userInfo: nil, repeats: false)
-    }
+
     
-    private func stopTimer() {
-        guard let timer = timer else {
-            return
-        }
-        timer.invalidate()
-        self.timer = nil
-    }
+    var onFinishRecord: (() -> Void)?
     
-    @objc private func onTimeUpdate() {
-        
-    }
-    
-    func requestPermissions() -> Bool {
+    func requestPermissions() {
         
         let session = AVAudioSession.sharedInstance()
         
-        switch (session.recordPermission()) {
-            
-        case AVAudioSessionRecordPermission.granted:
-            // 已获取权限
-            return true
-            
-        case AVAudioSessionRecordPermission.denied:
-            break
-            
-        case AVAudioSessionRecordPermission.undetermined:
+        if session.recordPermission() == .undetermined {
             session.requestRecordPermission { (granted) in
                 
             }
         }
         
-        return false
-        
     }
     
     
-    func startRecoring() throws {
-        
-        if !requestPermissions() {
-            throw AudioManagerError.permissionDeny
-        }
-        
-        guard let saveDir = saveDir else {
-            throw AudioManagerError.saveDirIsMissing
-        }
-        
-        savePath = "\(saveDir)/\(NSDate().timeIntervalSince1970)\(audioExtname)"
-        
-        guard let savePath = savePath else {
-            throw AudioManagerError.savePathIsMissing
-        }
-        
+    func startRecord() throws {
         
         let session = AVAudioSession.sharedInstance()
         
+        if session.recordPermission() != .granted {
+            throw AudioManagerError.permissionDeny
+        }
+        
+        guard let fileDir = fileDir else {
+            throw AudioManagerError.saveDirIsMissing
+        }
+        
+        filePath = "\(fileDir)/\(Int(NSDate().timeIntervalSince1970))\(audioExtname)"
+        
+        guard let filePath = filePath else {
+            throw AudioManagerError.savePathIsMissing
+        }
+
+        print("file path: \(filePath)")
+        
+        // 每次录音重置，录完读取真实的时长
+        duration = nil
+        
         do {
-            try session.setCategory(AVAudioSessionCategoryRecord)
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
             try session.setActive(true)
             
             let recordSettings: [String: Any] = [
@@ -112,13 +96,16 @@ public class AudioManager {
                 AVEncoderBitRateKey : audioBitRate,
                 AVSampleRateKey : audioSampleRate
             ]
-            recorder = try AVAudioRecorder(url: URL(fileURLWithPath: savePath), settings: recordSettings)
+            recorder = try AVAudioRecorder(url: URL(fileURLWithPath: filePath), settings: recordSettings)
 
             if let recorder = recorder {
+                recorder.delegate = self
                 recorder.isMeteringEnabled = true
                 recorder.prepareToRecord()
-                recorder.record()
+                recorder.record(forDuration: maxDuration)
                 isRecording = true
+                
+                print("record start")
             }
 
         }
@@ -129,31 +116,29 @@ public class AudioManager {
 
     }
     
-    func stopRecording() throws {
+    func stopRecord() throws {
         
         guard isRecording else {
             throw AudioManagerError.recorderIsNotRunning
         }
-        
+
         if let recorder = recorder {
             recorder.stop()
-            self.recorder = nil
         }
-        
-        isRecording = false
         
     }
     
-    func startPlaying() throws {
+    func startPlay() throws {
         
-        guard let savePath = savePath else {
+        guard let filePath = filePath else {
             throw AudioManagerError.audioFileIsNotExisted
         }
         
         do {
-            player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: savePath))
+            player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: filePath))
             
             if let player = player {
+                
                 player.prepareToPlay()
                 player.play()
                 isPlaying = true
@@ -166,7 +151,7 @@ public class AudioManager {
 
     }
     
-    func stopPlaying() throws {
+    func stopPlay() throws {
         
         guard isPlaying else {
             throw AudioManagerError.playerIsNotRunning
@@ -178,6 +163,54 @@ public class AudioManager {
         }
         
         isPlaying = false
+        
+    }
+    
+    func deleteFile() {
+        
+        guard let recorder = recorder else {
+            return
+        }
+        
+        recorder.deleteRecording()
+        
+        self.recorder = nil
+        self.filePath = nil
+        
+    }
+    
+}
+
+extension AudioManager: AVAudioRecorderDelegate {
+    
+    public func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
+        print(error)
+    }
+    
+    public func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        
+        print("record stop \(flag)")
+        isRecording = false
+        
+        if flag {
+            // 尝试读时长，读取失败也认为是录制失败
+            if let filePath = filePath {
+                do {
+                    player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: filePath))
+                    if let player = player {
+                        duration = player.duration
+                        onFinishRecord?()
+                        return
+                    }
+                }
+                catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        deleteFile()
+        onFinishRecord?()
         
     }
     

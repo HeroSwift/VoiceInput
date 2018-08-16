@@ -39,29 +39,29 @@ public class VoiceInput: UIView {
     var recordButtonBackgroundColorNormal = UIColor(red: 41 / 255, green: 181 / 255, blue: 234 / 255, alpha: 1)
     var recordButtonBackgroundColorPressed = UIColor(red: 14 / 255, green: 164 / 255, blue: 221 / 255, alpha: 1)
     
-    var previewButtonRadius = CGFloat(25)
+    var previewButtonRadius = CGFloat(30)
     var previewButtonImage = UIImage(named: "preview")
     var previewButtonBorderWidth = CGFloat(0.5)
     var previewButtonBorderColor = UIColor(red: 187 / 255, green: 187 / 255, blue: 187 / 255, alpha: 1)
     var previewButtonBackgroundColorNormal = UIColor.white
     var previewButtonBackgroundColorHover = UIColor(red: 243 / 255, green: 243 / 255, blue: 243 / 255, alpha: 1)
-    var previewButtonMarginRight = CGFloat(30)
+    var previewButtonMarginRight = CGFloat(35)
     
-    var deleteButtonRadius = CGFloat(25)
+    var deleteButtonRadius = CGFloat(30)
     var deleteButtonImage = UIImage(named: "delete")
     var deleteButtonBorderWidth = CGFloat(0.5)
     var deleteButtonBorderColor = UIColor(red: 187 / 255, green: 187 / 255, blue: 187 / 255, alpha: 1)
     var deleteButtonBackgroundColorNormal = UIColor.white
     var deleteButtonBackgroundColorHover = UIColor(red: 243 / 255, green: 243 / 255, blue: 243 / 255, alpha: 1)
-    var deleteButtonMarginLeft = CGFloat(30)
+    var deleteButtonMarginLeft = CGFloat(35)
     
-    var guideLabelTextColor = UIColor(red: 187 / 255, green: 187 / 255, blue: 187 / 255, alpha: 1)
-    var guideLabelTextFont = UIFont.systemFont(ofSize: 15)
-    var guideLabelMarginBottom = CGFloat(25)
+    var guideLabelTextColor = UIColor(red: 160 / 255, green: 160 / 255, blue: 160 / 255, alpha: 1)
+    var guideLabelTextFont = UIFont.systemFont(ofSize: 17)
+    var guideLabelMarginBottom = CGFloat(30)
     
-    var durationLabelTextColor = UIColor(red: 187 / 255, green: 187 / 255, blue: 187 / 255, alpha: 1)
-    var durationLabelTextFont = UIFont.systemFont(ofSize: 15)
-    var durationLabelMarginBottom = CGFloat(25)
+    var durationLabelTextColor = UIColor(red: 160 / 255, green: 160 / 255, blue: 160 / 255, alpha: 1)
+    var durationLabelTextFont = UIFont.systemFont(ofSize: 17)
+    var durationLabelMarginBottom = CGFloat(30)
     
     var guideTextNormal = "按住说话"
     var guideTextPreview = "松手试听"
@@ -153,6 +153,9 @@ public class VoiceInput: UIView {
     
     private let audioManager = AudioManager()
     
+    // 刷新时长的 timer
+    var timer: Timer?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -165,6 +168,10 @@ public class VoiceInput: UIView {
     
     private func setup() {
         backgroundColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
+        audioManager.requestPermissions()
+        audioManager.onFinishRecord = {
+            self.stopRecordCompletion()
+        }
     }
     
     public func addLayout() {
@@ -172,24 +179,73 @@ public class VoiceInput: UIView {
         addPreviewView()
     }
     
+    private func startTimer(interval: TimeInterval, selector: Selector) {
+        print("start timer")
+        timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: selector, userInfo: nil, repeats: true)
+    }
+    
+    private func stopTimer() {
+        guard let timer = timer else {
+            return
+        }
+        print("stop timer")
+        timer.invalidate()
+        self.timer = nil
+    }
+    
+    @objc private func onDurationUpdate() {
+        durationLabel.text = formatDuration(audioManager.recorder!.currentTime)
+    }
+    
+    @objc private func onProgressUpdate() {
+        
+    }
+    
     private func startRecord() {
-        recordButton.centerColor = recordButtonBackgroundColorPressed
-        recordButton.setNeedsDisplay()
         
-        previewButton.isHidden = false
-        deleteButton.isHidden = false
+        do {
+            try audioManager.startRecord()
         
-        guideLabel.isHidden = true
-        durationLabel.isHidden = false
+            recordButton.centerColor = recordButtonBackgroundColorPressed
+            recordButton.setNeedsDisplay()
+            
+            previewButton.isHidden = false
+            deleteButton.isHidden = false
+            
+            guideLabel.isHidden = true
+            durationLabel.isHidden = false
+            
+            startTimer(interval: 0.1, selector: #selector(VoiceInput.onDurationUpdate))
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+        
     }
     
     private func stopRecord() {
         
-        if isPreviewButtonPressed {
-            isPreviewing = true
+        stopTimer()
+        
+        do {
+            try audioManager.stopRecord()
         }
-        else if isDeleteButtonPressed {
-            
+        catch {
+            print(error.localizedDescription)
+        }
+        
+    }
+    
+    private func stopRecordCompletion() {
+        let isSuccess = audioManager.filePath != nil
+        
+        if isSuccess {
+            if isPreviewButtonPressed {
+                isPreviewing = true
+            }
+            else if isDeleteButtonPressed {
+                audioManager.deleteFile()
+            }
         }
         
         isPreviewButtonPressed = false
@@ -203,6 +259,29 @@ public class VoiceInput: UIView {
         
         guideLabel.isHidden = false
         durationLabel.isHidden = true
+    }
+    
+    private func startPlay() {
+        
+        do {
+            try audioManager.startPlay()
+            playButton.setImage(stopButtonImage!)
+        }
+        catch {
+            print(error.localizedDescription)
+        }
+        
+    }
+    
+    private func stopPlay() {
+        
+        do {
+            try audioManager.stopPlay()
+            playButton.setImage(playButtonImage!)
+        }
+        catch {
+            print(error.localizedDescription)
+        }
         
     }
     
@@ -212,14 +291,6 @@ public class VoiceInput: UIView {
     
     private func send() {
         isPreviewing = false
-    }
-    
-    private func startPlay() {
-        playButton.setImage(stopButtonImage!)
-    }
-    
-    private func stopPlay() {
-        playButton.setImage(playButtonImage!)
     }
     
 }
@@ -550,6 +621,29 @@ extension VoiceInput {
         topBorder.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 0.5)
         topBorder.backgroundColor = color.cgColor
         view.layer.addSublayer(topBorder)
+    }
+    
+    private func formatDuration(_ duration: Double) -> String {
+        
+        var value = Int(duration)
+        if duration < 0 {
+            value = 0
+        }
+        
+        let minutes = value / 60
+        let seconds = value - minutes * 60
+        
+        var a = String(minutes)
+        if minutes < 10 {
+            a = "0" + a
+        }
+        
+        var b = String(seconds)
+        if seconds < 10 {
+            b = "0" + b
+        }
+        
+        return "\(a):\(b)"
     }
     
 }
