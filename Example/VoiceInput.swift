@@ -1,6 +1,7 @@
 
 import UIKit
 import CircleView
+import SimpleButton
 
 public class VoiceInput: UIView {
     
@@ -26,8 +27,8 @@ public class VoiceInput: UIView {
     var progressLabel = UILabel()
     var playButton = CircleView()
     
-    var cancelButton = UIButton()
-    var sendButton = UIButton()
+    var cancelButton = SimpleButton()
+    var sendButton = SimpleButton()
     
     //
     // MARK: - 录制界面 配置
@@ -346,6 +347,9 @@ public class VoiceInput: UIView {
         
         cancelButton.setTitle(footerButtonCancelText, for: .normal)
         cancelButton.setTitleColor(footerButtonTextColor, for: .normal)
+//        cancelButton.setBackgroundColor(color: footerButtonBackgroundColorNormal, for: .normal)
+//        cancelButton.setBackgroundColor(color: footerButtonBackgroundColorPressed, for: .highlighted)
+        
         cancelButton.titleLabel?.font = footerButtonTextFont
         
         cancelButton.contentEdgeInsets = UIEdgeInsets(top: 15, left: 0, bottom: 15, right: 0)
@@ -363,7 +367,9 @@ public class VoiceInput: UIView {
         
         addConstraints([bottomConstraint, leadingConstraint, trailingConstraint])
         
-        cancelButton.addTarget(self, action: #selector(self.cancel), for: .touchUpInside)
+        cancelButton.onPress = {
+            self.cancel()
+        }
         
     }
     
@@ -371,6 +377,9 @@ public class VoiceInput: UIView {
         
         sendButton.setTitle(footerButtonSendText, for: .normal)
         sendButton.setTitleColor(footerButtonTextColor, for: .normal)
+//        sendButton.setBackgroundColor(color: footerButtonBackgroundColorNormal, for: .normal)
+//        sendButton.setBackgroundColor(color: footerButtonBackgroundColorPressed, for: .highlighted)
+        
         sendButton.titleLabel?.font = footerButtonTextFont
         
         sendButton.contentEdgeInsets = UIEdgeInsets(top: 15, left: 0, bottom: 15, right: 0)
@@ -387,7 +396,9 @@ public class VoiceInput: UIView {
 
         addConstraints([bottomConstraint, leadingConstraint, trailingConstraint])
         
-        sendButton.addTarget(self, action: #selector(self.send), for: .touchUpInside)
+        sendButton.onPress = {
+            self.send()
+        }
         
     }
     
