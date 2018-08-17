@@ -1,6 +1,8 @@
 
 import AVFoundation
 
+// 更多可 https://github.com/genedelisa/AVFoundationRecorder/blob/master/AVFoundation%20Recorder/RecorderViewController.swift
+
 public class AudioManager: NSObject {
 
     // 录音器
@@ -16,7 +18,7 @@ public class AudioManager: NSObject {
     var isPlaying = false
     
     // 文件扩展名
-    var audioExtname = ".aac"
+    var audioExtname = ".m4a"
     
     // 音频格式
     var audioFormat = kAudioFormatMPEG4AAC
@@ -28,7 +30,7 @@ public class AudioManager: NSObject {
     var audioQuality: AVAudioQuality = .high
     
     // 码率
-    var audioBitRate = 32000
+    var audioBitRate = 320000
     
     // 采样率
     var audioSampleRate = 44100.0
@@ -74,7 +76,10 @@ public class AudioManager: NSObject {
             throw AudioManagerError.saveDirIsMissing
         }
         
-        filePath = "\(fileDir)/\(Int(NSDate().timeIntervalSince1970))\(audioExtname)"
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
+        
+        filePath = "\(fileDir)/\(format.string(from: Date()))\(audioExtname)"
         
         guard let filePath = filePath else {
             throw AudioManagerError.savePathIsMissing
@@ -90,7 +95,7 @@ public class AudioManager: NSObject {
             try session.setActive(true)
             
             let recordSettings: [String: Any] = [
-                AVFormatIDKey: Int(audioFormat),
+                AVFormatIDKey: audioFormat,
                 AVNumberOfChannelsKey: numberOfChannels,
                 AVEncoderAudioQualityKey : audioQuality.rawValue,
                 AVEncoderBitRateKey : audioBitRate,
