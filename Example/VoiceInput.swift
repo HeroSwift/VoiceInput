@@ -87,6 +87,9 @@ public class VoiceInput: UIView {
     var footerButtonTextCancel = "取消"
     var footerButtonTextSend = "发送"
     
+    var fotterButtonPaddingTop = CGFloat(20)
+    var fotterButtonPaddingBottom = CGFloat(20)
+    
     var footerButtonTextColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
     var footerButtonTextFont = UIFont.systemFont(ofSize: 15)
     
@@ -249,9 +252,8 @@ public class VoiceInput: UIView {
     }
     
     private func finishRecord() {
-        let isSuccess = audioManager.filePath != nil
         
-        if isSuccess {
+        if audioManager.filePath != nil {
             if isPreviewButtonPressed {
                 isPreviewing = true
             }
@@ -526,7 +528,7 @@ extension VoiceInput {
         
         cancelButton.titleLabel?.font = footerButtonTextFont
         
-        cancelButton.contentEdgeInsets = UIEdgeInsets(top: 15, left: 0, bottom: 15, right: 0)
+        cancelButton.contentEdgeInsets = UIEdgeInsets(top: fotterButtonPaddingTop, left: 0, bottom: fotterButtonPaddingBottom, right: 0)
         
         cancelButton.sizeToFit()
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -557,7 +559,7 @@ extension VoiceInput {
         
         sendButton.titleLabel?.font = footerButtonTextFont
         
-        sendButton.contentEdgeInsets = UIEdgeInsets(top: 15, left: 0, bottom: 15, right: 0)
+        sendButton.contentEdgeInsets = UIEdgeInsets(top: fotterButtonPaddingTop, left: 0, bottom: fotterButtonPaddingBottom, right: 0)
         sendButton.sizeToFit()
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         
