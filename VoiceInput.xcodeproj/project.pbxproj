@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C612126F0170050F376 /* VoiceManager.swift */; };
+		9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B9421245D8F0050F376 /* VoiceInput.swift */; };
+		9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */; };
 		9DD98B8421245D730050F376 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B8321245D730050F376 /* AppDelegate.swift */; };
 		9DD98B8621245D740050F376 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B8521245D740050F376 /* ViewController.swift */; };
 		9DD98B8921245D740050F376 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DD98B8721245D740050F376 /* Main.storyboard */; };
@@ -96,6 +99,9 @@
 		9DD98B7421245D630050F376 /* VoiceInput */ = {
 			isa = PBXGroup;
 			children = (
+				9DD98C612126F0170050F376 /* VoiceManager.swift */,
+				9DD98B9421245D8F0050F376 /* VoiceInput.swift */,
+				9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */,
 				9DD98B7621245D630050F376 /* Info.plist */,
 			);
 			path = VoiceInput;
@@ -104,15 +110,12 @@
 		9DD98B8221245D730050F376 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				9DD98C612126F0170050F376 /* VoiceManager.swift */,
-				9DD98B9421245D8F0050F376 /* VoiceInput.swift */,
 				9DD98B8321245D730050F376 /* AppDelegate.swift */,
 				9DD98B8521245D740050F376 /* ViewController.swift */,
 				9DD98B8721245D740050F376 /* Main.storyboard */,
 				9DD98B8A21245D740050F376 /* Assets.xcassets */,
 				9DD98B8C21245D740050F376 /* LaunchScreen.storyboard */,
 				9DD98B8F21245D740050F376 /* Info.plist */,
-				9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */,
 			);
 			path = Example;
 			sourceTree = "<group>";
@@ -237,6 +240,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */,
+				9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */,
+				9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
