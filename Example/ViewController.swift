@@ -17,10 +17,9 @@ class ViewController: UIViewController {
         
         let input = VoiceInput()
         input.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        
+        input.backgroundColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
         view.addSubview(input)
         
-        input.addLayout()
     }
 
     override func didReceiveMemoryWarning() {
