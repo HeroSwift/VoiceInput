@@ -5,6 +5,8 @@ import SimpleButton
 
 public class VoiceInput: UIView {
     
+    var delegate: VoiceInputDelegate?
+    
     //
     // MARK: - 录制界面
     //
@@ -34,7 +36,7 @@ public class VoiceInput: UIView {
     // MARK: - 录制界面 配置
     //
     
-    var recordButtonRadius = CGFloat(50)
+    var recordButtonRadius = CGFloat(60)
     var recordButtonImage = UIImage(named: "mic")
     var recordButtonBackgroundColorNormal = UIColor(red: 41 / 255, green: 181 / 255, blue: 234 / 255, alpha: 1)
     var recordButtonBackgroundColorPressed = UIColor(red: 14 / 255, green: 164 / 255, blue: 221 / 255, alpha: 1)
@@ -71,13 +73,13 @@ public class VoiceInput: UIView {
     // MARK: - 预览界面 配置
     //
     
-    var progressLabelTextColor = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
-    var progressLabelTextFont = UIFont.systemFont(ofSize: 15)
+    var progressLabelTextColor = UIColor(red: 160 / 255, green: 160 / 255, blue: 160 / 255, alpha: 1)
+    var progressLabelTextFont = UIFont.systemFont(ofSize: 17)
     var progressLabelMarginBottom = CGFloat(25)
     
-    var playButtonCenterRadius = CGFloat(45)
+    var playButtonCenterRadius = CGFloat(56)
     var playButtonCenterColor = UIColor.white
-    var playButtonRingWdith = CGFloat(5)
+    var playButtonRingWdith = CGFloat(4)
     var playButtonRingColor = UIColor(red: 230 / 255, green: 230 / 255, blue: 230 / 255, alpha: 1)
     var playButtonTrackColor = UIColor.blue
     
@@ -90,7 +92,7 @@ public class VoiceInput: UIView {
     var fotterButtonPaddingTop = CGFloat(20)
     var fotterButtonPaddingBottom = CGFloat(20)
     
-    var footerButtonTextColor = UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
+    var footerButtonTextColor = UIColor(red: 50 / 255, green: 50 / 255, blue: 50 / 255, alpha: 1)
     var footerButtonTextFont = UIFont.systemFont(ofSize: 15)
     
     
@@ -177,8 +179,13 @@ public class VoiceInput: UIView {
     }
     
     private func setup() {
-        backgroundColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
         audioManager.requestPermissions()
+        audioManager.onPermissionGranted = {
+            
+        }
+        audioManager.onPermissionDenied = {
+            
+        }
         audioManager.onFinishRecord = { success in
             self.finishRecord()
         }
@@ -253,12 +260,15 @@ public class VoiceInput: UIView {
     
     private func finishRecord() {
         
-        if audioManager.filePath != nil {
+        if audioManager.filePath != "" {
             if isPreviewButtonPressed {
                 isPreviewing = true
             }
             else if isDeleteButtonPressed {
                 audioManager.deleteFile()
+            }
+            else {
+                delegate?.voiceInputDidFinishRecord(self, audioManager.filePath, audioManager.fileDuration)
             }
         }
         
@@ -331,6 +341,7 @@ public class VoiceInput: UIView {
     private func send() {
         stopPlay()
         isPreviewing = false
+        delegate?.voiceInputDidFinishRecord(self, audioManager.filePath, audioManager.fileDuration)
     }
     
 }

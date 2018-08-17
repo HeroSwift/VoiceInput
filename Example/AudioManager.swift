@@ -1,7 +1,8 @@
 
 import AVFoundation
 
-// 更多可 https://github.com/genedelisa/AVFoundationRecorder/blob/master/AVFoundation%20Recorder/RecorderViewController.swift
+// https://www.cnblogs.com/kenshincui/p/4186022.html
+// https://github.com/genedelisa/AVFoundationRecorder/blob/master/AVFoundation%20Recorder/RecorderViewController.swift
 
 public class AudioManager: NSObject {
 
@@ -47,7 +48,7 @@ public class AudioManager: NSObject {
     var fileDir = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first
     
     // 当前正在录音的文件路径
-    var filePath: String?
+    var filePath = ""
     
     var fileDuration: TimeInterval = 0
     
@@ -57,20 +58,23 @@ public class AudioManager: NSObject {
     // 支持的最长录音时长
     var maxDuration: TimeInterval = 60
 
-    // 录音时长
+    // 外部实时读取的录音时长
     var duration: Double {
         get {
             return recorder != nil ? recorder!.currentTime : 0
         }
     }
     
-    // 播放进度
+    // 外部实时读取的播放进度
     var progress: Double {
         get {
             return player != nil ? player!.currentTime : 0
         }
     }
 
+    var onPermissionGranted: (() -> Void)?
+    var onPermissionDenied: (() -> Void)?
+    
     var onFinishRecord: ((_ success: Bool) -> Void)?
     
     var onFinishPlay: ((_ success: Bool) -> Void)?
@@ -86,7 +90,10 @@ public class AudioManager: NSObject {
         if session.recordPermission() == .undetermined {
             session.requestRecordPermission { (granted) in
                 if granted {
-                    print("permission granted")
+                    self.onPermissionGranted?()
+                }
+                else {
+                    self.onPermissionDenied?()
                 }
             }
         }
@@ -123,11 +130,11 @@ public class AudioManager: NSObject {
         let session = AVAudioSession.sharedInstance()
         
         if session.recordPermission() != .granted {
-            throw AudioManagerError.permissionDeny
+            throw AudioManagerError.permissionIsDenied
         }
         
         guard let fileDir = fileDir else {
-            throw AudioManagerError.saveDirIsMissing
+            throw AudioManagerError.fileDirIsMissing
         }
         
         // 生成录音文件的路径
@@ -135,12 +142,8 @@ public class AudioManager: NSObject {
         format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
         
         filePath = "\(fileDir)/\(format.string(from: Date()))\(audioExtname)"
-        
-        guard let filePath = filePath else {
-            throw AudioManagerError.savePathIsMissing
-        }
 
-        print("file path: \(filePath)")
+        print("record file path: \(filePath)")
         
         fileDuration = 0
 
@@ -196,7 +199,7 @@ public class AudioManager: NSObject {
     
     func startPlay() throws {
         
-        guard let filePath = filePath else {
+        guard filePath != "" else {
             throw AudioManagerError.audioFileIsNotExisted
         }
         
@@ -212,7 +215,7 @@ public class AudioManager: NSObject {
         if let player = player {
             
             // 独占播放，并且能响应静音键
-            // 比如手机在播放音乐，此时开始试听录音，应暂时独占
+            // 比如手机在播放音乐，此时开始试听录音，应独占扬声器
             setSessionCategory(AVAudioSessionCategorySoloAmbient)
             
             player.delegate = self
@@ -249,7 +252,7 @@ public class AudioManager: NSObject {
         recorder.deleteRecording()
         
         self.recorder = nil
-        self.filePath = nil
+        self.filePath = ""
         
     }
     
@@ -303,13 +306,13 @@ extension AudioManager {
     enum AudioManagerError: Swift.Error {
         
         // 没有指定录音目录
-        case saveDirIsMissing
+        case fileDirIsMissing
         
         // 没有指定录音文件的路径
-        case savePathIsMissing
+        case filePathIsMissing
         
         // 没有录音权限
-        case permissionDeny
+        case permissionIsDenied
         
         // 录音器不可用
         case recorderIsNotAvailable
