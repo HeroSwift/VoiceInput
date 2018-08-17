@@ -75,6 +75,12 @@ public class VoiceInput: UIView {
     var progressLabelTextFont = UIFont.systemFont(ofSize: 15)
     var progressLabelMarginBottom = CGFloat(25)
     
+    var playButtonCenterRadius = CGFloat(45)
+    var playButtonCenterColor = UIColor.white
+    var playButtonRingWdith = CGFloat(5)
+    var playButtonRingColor = UIColor(red: 230 / 255, green: 230 / 255, blue: 230 / 255, alpha: 1)
+    var playButtonTrackColor = UIColor.blue
+    
     var playButtonImage = UIImage(named: "play")
     var stopButtonImage = UIImage(named: "stop")
     
@@ -141,9 +147,9 @@ public class VoiceInput: UIView {
                 return
             }
             if isPreviewing {
+                resetPreviewView()
                 recordView.isHidden = true
                 previewView.isHidden = false
-                progressLabel.text = formatDuration(audioManager.fileDuration)
             }
             else {
                 recordView.isHidden = false
@@ -202,8 +208,9 @@ public class VoiceInput: UIView {
     }
     
     @objc private func onProgressUpdate() {
-        print(audioManager.progress)
         progressLabel.text = formatDuration(audioManager.progress)
+        playButton.trackValue = audioManager.progress / audioManager.fileDuration
+        playButton.setNeedsDisplay()
     }
     
     private func startRecord() {
@@ -270,7 +277,7 @@ public class VoiceInput: UIView {
     }
     
     private func startPlay() {
-        
+
         do {
             try audioManager.startPlay()
             if audioManager.isPlaying {
@@ -285,7 +292,7 @@ public class VoiceInput: UIView {
     }
     
     private func stopPlay() {
-        
+
         do {
             try audioManager.stopPlay()
         }
@@ -293,20 +300,34 @@ public class VoiceInput: UIView {
             print(error.localizedDescription)
         }
         
+        finishPlay()
+        
     }
     
     private func finishPlay() {
-        
+
         stopTimer()
-        playButton.setImage(playButtonImage!)
+        
+        resetPreviewView()
         
     }
     
+    private func resetPreviewView() {
+        progressLabel.text = formatDuration(audioManager.fileDuration)
+        
+        playButton.setImage(playButtonImage!)
+        playButton.trackValue = 0
+        playButton.setNeedsDisplay()
+    }
+    
     private func cancel() {
+        stopPlay()
+        audioManager.deleteFile()
         isPreviewing = false
     }
     
     private func send() {
+        stopPlay()
         isPreviewing = false
     }
     
@@ -455,6 +476,12 @@ extension VoiceInput {
     private func addPlayButton() {
         
         playButton.delegate = self
+        playButton.centerRadius = playButtonCenterRadius
+        playButton.centerColor = playButtonCenterColor
+        playButton.ringWidth = playButtonRingWdith
+        playButton.ringColor = playButtonRingColor
+        playButton.trackWidth = playButtonRingWdith
+        playButton.trackColor = playButtonTrackColor
         
         playButton.setImage(playButtonImage!)
         

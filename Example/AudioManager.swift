@@ -70,10 +70,14 @@ public class AudioManager: NSObject {
             return player != nil ? player!.currentTime : 0
         }
     }
-    
+
     var onFinishRecord: ((_ success: Bool) -> Void)?
     
     var onFinishPlay: ((_ success: Bool) -> Void)?
+    
+    // 读取进入之前的 category
+    // 用完音频后再重置回去
+    private var defaultCategory = AVAudioSession.sharedInstance().category
     
     func requestPermissions() {
         
@@ -89,18 +93,27 @@ public class AudioManager: NSObject {
         
     }
     
-    private func setSessionActive(_ session: AVAudioSession, _ active: Bool) -> Bool {
+    private func setSessionCategory(_ category: String) {
         
         do {
-            try session.setActive(active)
-            return true
+            try AVAudioSession.sharedInstance().setCategory(category)
+        }
+        catch {
+            print("could not set session category: \(category)")
+            print(error.localizedDescription)
+        }
+        
+    }
+    
+    private func setSessionActive(_ active: Bool) {
+        
+        do {
+            try AVAudioSession.sharedInstance().setActive(active)
         }
         catch {
             print("could not set session active: \(active)")
             print(error.localizedDescription)
         }
-        
-        return false
         
     }
     
@@ -129,20 +142,6 @@ public class AudioManager: NSObject {
 
         print("file path: \(filePath)")
         
-        // 设置 session
-        do {
-            try session.setCategory(AVAudioSessionCategoryRecord)
-        }
-        catch {
-            print("could not set session category")
-            print(error.localizedDescription)
-            return
-        }
-        
-        if !setSessionActive(session, true) {
-            return
-        }
-        
         fileDuration = 0
 
         let recordSettings: [String: Any] = [
@@ -159,16 +158,22 @@ public class AudioManager: NSObject {
         catch {
             print("could not init AVAudioRecorder")
             print(error.localizedDescription)
-            setSessionActive(session, false)
             throw AudioManagerError.recorderIsNotAvailable
         }
         
         if let recorder = recorder {
+            
+            // 设置 session
+            setSessionCategory(AVAudioSessionCategoryRecord)
+            setSessionActive(true)
+            
             recorder.delegate = self
             recorder.isMeteringEnabled = true
             recorder.prepareToRecord()
             recorder.record(forDuration: maxDuration)
+            
             print("start record")
+            
         }
 
     }
@@ -184,7 +189,8 @@ public class AudioManager: NSObject {
             recorder.stop()
         }
         
-        setSessionActive(AVAudioSession.sharedInstance(), false)
+        setSessionCategory(defaultCategory)
+        setSessionActive(false)
         
     }
     
@@ -198,15 +204,23 @@ public class AudioManager: NSObject {
             player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: filePath))
         }
         catch {
+            print("could not init AVAudioPlayer")
             print(error.localizedDescription)
             throw AudioManagerError.playerIsNotAvailable
         }
         
         if let player = player {
+            
+            // 独占播放，并且能响应静音键
+            // 比如手机在播放音乐，此时开始试听录音，应暂时独占
+            setSessionCategory(AVAudioSessionCategorySoloAmbient)
+            
             player.delegate = self
             player.prepareToPlay()
             player.play()
+            
             print("start play: \(filePath)")
+            
         }
 
     }
@@ -221,6 +235,8 @@ public class AudioManager: NSObject {
             player.stop()
             self.player = nil
         }
+        
+        setSessionCategory(defaultCategory)
         
     }
     
@@ -253,7 +269,6 @@ extension AudioManager: AVAudioRecorderDelegate {
         print("finish record: \(flag)")
         
         if flag {
-            print("\(fileDuration) -\(minDuration)")
             if fileDuration >= minDuration {
                 onFinishRecord?(true)
                 return
