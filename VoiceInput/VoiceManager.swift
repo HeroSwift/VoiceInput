@@ -4,7 +4,7 @@ import AVFoundation
 // https://www.cnblogs.com/kenshincui/p/4186022.html
 // https://github.com/genedelisa/AVFoundationRecorder/blob/master/AVFoundation%20Recorder/RecorderViewController.swift
 
-public class VoiceManager: NSObject {
+class VoiceManager: NSObject {
 
     // 录音器
     var recorder: AVAudioRecorder?
