@@ -49,7 +49,9 @@ public class AudioManager: NSObject {
     
 
     
-    var onFinishRecord: (() -> Void)?
+    var onFinishRecord: ((_ success: Bool) -> Void)?
+    
+    var onFinishPlay: ((_ success: Bool) -> Void)?
     
     func requestPermissions() {
         
@@ -57,7 +59,28 @@ public class AudioManager: NSObject {
         
         if session.recordPermission() == .undetermined {
             session.requestRecordPermission { (granted) in
-                
+                if granted {
+                    DispatchQueue.main.async {
+                        print("permission granted")
+                        
+                        do {
+                            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                        }
+                        catch {
+                            print("could not set session category")
+                            print(error.localizedDescription)
+                        }
+                        
+                        do {
+                            try session.setActive(true)
+                        }
+                        catch {
+                            print("could not make session active")
+                            print(error.localizedDescription)
+                        }
+                        
+                    }
+                }
             }
         }
         
@@ -91,8 +114,6 @@ public class AudioManager: NSObject {
         duration = nil
         
         do {
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
-            try session.setActive(true)
             
             let recordSettings: [String: Any] = [
                 AVFormatIDKey: audioFormat,
@@ -115,6 +136,7 @@ public class AudioManager: NSObject {
 
         }
         catch {
+            print("could not init AVAudioRecorder")
             print(error.localizedDescription)
             throw AudioManagerError.recorderIsNotAvailable
         }
@@ -143,7 +165,7 @@ public class AudioManager: NSObject {
             player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: filePath))
             
             if let player = player {
-                
+                player.delegate = self
                 player.prepareToPlay()
                 player.play()
                 isPlaying = true
@@ -189,12 +211,16 @@ public class AudioManager: NSObject {
 extension AudioManager: AVAudioRecorderDelegate {
     
     public func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
-        print(error)
+        if let error = error {
+            print("recorder encode error")
+            print(error.localizedDescription)
+        }
     }
     
     public func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         
-        print("record stop \(flag)")
+        print("finish record: \(flag)")
+        
         isRecording = false
         
         if flag {
@@ -204,7 +230,7 @@ extension AudioManager: AVAudioRecorderDelegate {
                     player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: filePath))
                     if let player = player {
                         duration = player.duration
-                        onFinishRecord?()
+                        onFinishRecord?(true)
                         return
                     }
                 }
@@ -215,8 +241,25 @@ extension AudioManager: AVAudioRecorderDelegate {
         }
         
         deleteFile()
-        onFinishRecord?()
+        onFinishRecord?(false)
         
+    }
+    
+}
+
+extension AudioManager: AVAudioPlayerDelegate {
+    
+    public func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        if let error = error {
+            print("player encode error")
+            print(error.localizedDescription)
+        }
+    }
+    
+    public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        print("finish play: \(flag)")
+        isPlaying = false
+        onFinishPlay?(flag)
     }
     
 }
