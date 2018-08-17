@@ -12,10 +12,18 @@ public class AudioManager: NSObject {
     var player: AVAudioPlayer?
 
     // 是否正在录音
-    var isRecording = false
+    var isRecording: Bool {
+        get {
+            return recorder != nil ? recorder!.isRecording : false
+        }
+    }
     
     // 是否正在播放
-    var isPlaying = false
+    var isPlaying: Bool {
+        get {
+            return player != nil ? player!.isPlaying : false
+        }
+    }
     
     // 文件扩展名
     var audioExtname = ".m4a"
@@ -41,13 +49,27 @@ public class AudioManager: NSObject {
     // 当前正在录音的文件路径
     var filePath: String?
     
+    var fileDuration: TimeInterval = 0
+    
+    // 支持的最短录音时长
+    var minDuration: TimeInterval = 1
+    
     // 支持的最长录音时长
     var maxDuration: TimeInterval = 60
 
     // 录音时长
-    var duration: TimeInterval?
+    var duration: Double {
+        get {
+            return recorder != nil ? recorder!.currentTime : 0
+        }
+    }
     
-
+    // 播放进度
+    var progress: Double {
+        get {
+            return player != nil ? player!.currentTime : 0
+        }
+    }
     
     var onFinishRecord: ((_ success: Bool) -> Void)?
     
@@ -60,29 +82,25 @@ public class AudioManager: NSObject {
         if session.recordPermission() == .undetermined {
             session.requestRecordPermission { (granted) in
                 if granted {
-                    DispatchQueue.main.async {
-                        print("permission granted")
-                        
-                        do {
-                            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
-                        }
-                        catch {
-                            print("could not set session category")
-                            print(error.localizedDescription)
-                        }
-                        
-                        do {
-                            try session.setActive(true)
-                        }
-                        catch {
-                            print("could not make session active")
-                            print(error.localizedDescription)
-                        }
-                        
-                    }
+                    print("permission granted")
                 }
             }
         }
+        
+    }
+    
+    private func setSessionActive(_ session: AVAudioSession, _ active: Bool) -> Bool {
+        
+        do {
+            try session.setActive(active)
+            return true
+        }
+        catch {
+            print("could not set session active: \(active)")
+            print(error.localizedDescription)
+        }
+        
+        return false
         
     }
     
@@ -99,6 +117,7 @@ public class AudioManager: NSObject {
             throw AudioManagerError.saveDirIsMissing
         }
         
+        // 生成录音文件的路径
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
         
@@ -110,35 +129,46 @@ public class AudioManager: NSObject {
 
         print("file path: \(filePath)")
         
-        // 每次录音重置，录完读取真实的时长
-        duration = nil
+        // 设置 session
+        do {
+            try session.setCategory(AVAudioSessionCategoryRecord)
+        }
+        catch {
+            print("could not set session category")
+            print(error.localizedDescription)
+            return
+        }
+        
+        if !setSessionActive(session, true) {
+            return
+        }
+        
+        fileDuration = 0
+
+        let recordSettings: [String: Any] = [
+            AVFormatIDKey: audioFormat,
+            AVNumberOfChannelsKey: numberOfChannels,
+            AVEncoderAudioQualityKey : audioQuality.rawValue,
+            AVEncoderBitRateKey : audioBitRate,
+            AVSampleRateKey : audioSampleRate
+        ]
         
         do {
-            
-            let recordSettings: [String: Any] = [
-                AVFormatIDKey: audioFormat,
-                AVNumberOfChannelsKey: numberOfChannels,
-                AVEncoderAudioQualityKey : audioQuality.rawValue,
-                AVEncoderBitRateKey : audioBitRate,
-                AVSampleRateKey : audioSampleRate
-            ]
             recorder = try AVAudioRecorder(url: URL(fileURLWithPath: filePath), settings: recordSettings)
-
-            if let recorder = recorder {
-                recorder.delegate = self
-                recorder.isMeteringEnabled = true
-                recorder.prepareToRecord()
-                recorder.record(forDuration: maxDuration)
-                isRecording = true
-                
-                print("record start")
-            }
-
         }
         catch {
             print("could not init AVAudioRecorder")
             print(error.localizedDescription)
+            setSessionActive(session, false)
             throw AudioManagerError.recorderIsNotAvailable
+        }
+        
+        if let recorder = recorder {
+            recorder.delegate = self
+            recorder.isMeteringEnabled = true
+            recorder.prepareToRecord()
+            recorder.record(forDuration: maxDuration)
+            print("start record")
         }
 
     }
@@ -150,8 +180,11 @@ public class AudioManager: NSObject {
         }
 
         if let recorder = recorder {
+            fileDuration = recorder.currentTime
             recorder.stop()
         }
+        
+        setSessionActive(AVAudioSession.sharedInstance(), false)
         
     }
     
@@ -163,17 +196,17 @@ public class AudioManager: NSObject {
         
         do {
             player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: filePath))
-            
-            if let player = player {
-                player.delegate = self
-                player.prepareToPlay()
-                player.play()
-                isPlaying = true
-            }
         }
         catch {
             print(error.localizedDescription)
             throw AudioManagerError.playerIsNotAvailable
+        }
+        
+        if let player = player {
+            player.delegate = self
+            player.prepareToPlay()
+            player.play()
+            print("start play: \(filePath)")
         }
 
     }
@@ -188,8 +221,6 @@ public class AudioManager: NSObject {
             player.stop()
             self.player = nil
         }
-        
-        isPlaying = false
         
     }
     
@@ -221,22 +252,11 @@ extension AudioManager: AVAudioRecorderDelegate {
         
         print("finish record: \(flag)")
         
-        isRecording = false
-        
         if flag {
-            // 尝试读时长，读取失败也认为是录制失败
-            if let filePath = filePath {
-                do {
-                    player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: filePath))
-                    if let player = player {
-                        duration = player.duration
-                        onFinishRecord?(true)
-                        return
-                    }
-                }
-                catch {
-                    print(error.localizedDescription)
-                }
+            print("\(fileDuration) -\(minDuration)")
+            if fileDuration >= minDuration {
+                onFinishRecord?(true)
+                return
             }
         }
         
@@ -258,7 +278,6 @@ extension AudioManager: AVAudioPlayerDelegate {
     
     public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         print("finish play: \(flag)")
-        isPlaying = false
         onFinishPlay?(flag)
     }
     

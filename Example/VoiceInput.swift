@@ -143,6 +143,7 @@ public class VoiceInput: UIView {
             if isPreviewing {
                 recordView.isHidden = true
                 previewView.isHidden = false
+                progressLabel.text = formatDuration(audioManager.fileDuration)
             }
             else {
                 recordView.isHidden = false
@@ -169,8 +170,11 @@ public class VoiceInput: UIView {
     private func setup() {
         backgroundColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
         audioManager.requestPermissions()
-        audioManager.onFinishRecord = {
-            self.stopRecordCompletion()
+        audioManager.onFinishRecord = { success in
+            self.finishRecord()
+        }
+        audioManager.onFinishPlay = { success in
+            self.finishPlay()
         }
     }
     
@@ -194,11 +198,12 @@ public class VoiceInput: UIView {
     }
     
     @objc private func onDurationUpdate() {
-        durationLabel.text = formatDuration(audioManager.recorder!.currentTime)
+        durationLabel.text = formatDuration(audioManager.duration)
     }
     
     @objc private func onProgressUpdate() {
-        
+        print(audioManager.progress)
+        progressLabel.text = formatDuration(audioManager.progress)
     }
     
     private func startRecord() {
@@ -236,7 +241,7 @@ public class VoiceInput: UIView {
         
     }
     
-    private func stopRecordCompletion() {
+    private func finishRecord() {
         let isSuccess = audioManager.filePath != nil
         
         if isSuccess {
@@ -259,13 +264,19 @@ public class VoiceInput: UIView {
         
         guideLabel.isHidden = false
         durationLabel.isHidden = true
+        
+        durationLabel.text = formatDuration(0)
+
     }
     
     private func startPlay() {
         
         do {
             try audioManager.startPlay()
-            playButton.setImage(stopButtonImage!)
+            if audioManager.isPlaying {
+                playButton.setImage(stopButtonImage!)
+                startTimer(interval: 1 / 60, selector: #selector(VoiceInput.onProgressUpdate))
+            }
         }
         catch {
             print(error.localizedDescription)
@@ -277,11 +288,17 @@ public class VoiceInput: UIView {
         
         do {
             try audioManager.stopPlay()
-            playButton.setImage(playButtonImage!)
         }
         catch {
             print(error.localizedDescription)
         }
+        
+    }
+    
+    private func finishPlay() {
+        
+        stopTimer()
+        playButton.setImage(playButtonImage!)
         
     }
     
@@ -437,6 +454,8 @@ extension VoiceInput {
     
     private func addPlayButton() {
         
+        playButton.delegate = self
+        
         playButton.setImage(playButtonImage!)
         
         playButton.sizeToFit()
@@ -552,6 +571,7 @@ extension VoiceInput {
 extension VoiceInput: CircleViewDelegate {
     
     public func circleViewDidTouchDown(_ circleView: CircleView) {
+        print(circleView)
         if circleView == recordButton {
             if audioManager.isRecording {
                 stopRecord()
