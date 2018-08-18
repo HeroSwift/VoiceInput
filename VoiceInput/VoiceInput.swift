@@ -79,6 +79,7 @@ public class VoiceInput: UIView {
 
     var playButtonCenterRadius = CGFloat(56)
     var playButtonCenterColor = UIColor.white
+    var playButtonCenterColorPressed = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
     var playButtonRingWdith = CGFloat(4)
     var playButtonRingColor = UIColor(red: 230 / 255, green: 230 / 255, blue: 230 / 255, alpha: 1)
     var playButtonTrackColor = UIColor(red: 41 / 255, green: 181 / 255, blue: 234 / 255, alpha: 1)
@@ -179,12 +180,17 @@ public class VoiceInput: UIView {
     }
 
     private func setup() {
-        voiceManager.requestPermissions()
-        voiceManager.onPermissionGranted = {
-            self.delegate?.voiceInputDidPermissionGranted(self)
+        voiceManager.onPermissionsGranted = {
+            self.delegate?.voiceInputDidPermissionsGranted(self)
         }
-        voiceManager.onPermissionDenied = {
-            self.delegate?.voiceInputDidPermissionDenied(self)
+        voiceManager.onPermissionsDenied = {
+            self.delegate?.voiceInputDidPermissionsDenied(self)
+        }
+        voiceManager.onRecordWithoutPermissions = {
+            self.delegate?.voiceInputWillRecordWithoutPermissions(self)
+        }
+        voiceManager.onRecordDurationLessThanMinDuration = {
+            self.delegate?.voiceInputDidRecordDurationLessThanMinDuration(self)
         }
         voiceManager.onFinishRecord = { success in
             self.finishRecord()
@@ -192,12 +198,18 @@ public class VoiceInput: UIView {
         voiceManager.onFinishPlay = { success in
             self.finishPlay()
         }
-        
     }
     
     public override func didMoveToSuperview() {
         addRecordView()
         addPreviewView()
+    }
+    
+    /**
+     * 请求麦克风权限
+     */
+    func requestPermissions() {
+        voiceManager.requestPermissions()
     }
 
     private func startTimer(interval: TimeInterval, selector: Selector) {
@@ -219,40 +231,46 @@ public class VoiceInput: UIView {
     }
 
     @objc private func onProgressUpdate() {
+        
         progressLabel.text = formatDuration(voiceManager.progress)
-        playButton.trackValue = voiceManager.progress / voiceManager.fileDuration
+        
+        // 接近就直接 1 吧
+        // 避免总是不能满圆的情况
+        var trackValue = voiceManager.progress / voiceManager.fileDuration
+        if (trackValue > 0.995) {
+            trackValue = 1
+        }
+        playButton.trackValue = trackValue
         playButton.setNeedsDisplay()
+        
     }
 
     private func startRecord() {
 
         do {
             try voiceManager.startRecord()
+            
+            if voiceManager.isRecording {
 
-            recordButton.centerColor = recordButtonBackgroundColorPressed
-            recordButton.setNeedsDisplay()
+                recordButton.centerColor = recordButtonBackgroundColorPressed
+                recordButton.setNeedsDisplay()
 
-            previewButton.isHidden = false
-            deleteButton.isHidden = false
+                previewButton.isHidden = false
+                deleteButton.isHidden = false
 
-            guideLabel.isHidden = true
-            durationLabel.isHidden = false
+                guideLabel.isHidden = true
+                durationLabel.isHidden = false
 
-            startTimer(interval: 0.1, selector: #selector(VoiceInput.onDurationUpdate))
+                startTimer(interval: 0.1, selector: #selector(VoiceInput.onDurationUpdate))
+            }
         }
         catch {
-            let voiceError = error as? VoiceManagerError
-            if voiceError == VoiceManagerError.permissionIsDenied {
-                delegate?.voiceInputWillRecordWithoutPermission(self)
-            }
             print(error.localizedDescription)
         }
 
     }
 
     private func stopRecord() {
-
-        stopTimer()
 
         do {
             try voiceManager.stopRecord()
@@ -264,7 +282,9 @@ public class VoiceInput: UIView {
     }
 
     private func finishRecord() {
-
+        
+        stopTimer()
+        
         if voiceManager.filePath != "" {
             if isPreviewButtonPressed {
                 isPreviewing = true
@@ -299,6 +319,7 @@ public class VoiceInput: UIView {
             try voiceManager.startPlay()
             if voiceManager.isPlaying {
                 playButton.centerImage = stopButtonImage
+                playButton.setNeedsDisplay()
                 startTimer(interval: 1 / 60, selector: #selector(VoiceInput.onProgressUpdate))
             }
         }
@@ -599,10 +620,10 @@ extension VoiceInput {
 
     public override func layoutSubviews() {
 
-        addTopBorder(view: cancelButton, color: footerButtonBorderColor)
+        cancelButton.setTopBorder(width: 0.5, color: footerButtonBorderColor)
 
-        addLeftBorder(view: sendButton, color: footerButtonBorderColor)
-        addTopBorder(view: sendButton, color: footerButtonBorderColor)
+        sendButton.setLeftBorder(width: 0.5, color: footerButtonBorderColor)
+        sendButton.setTopBorder(width: 0.5, color: footerButtonBorderColor)
 
     }
 
@@ -615,7 +636,6 @@ extension VoiceInput {
 extension VoiceInput: CircleViewDelegate {
 
     public func circleViewDidTouchDown(_ circleView: CircleView) {
-        print(circleView)
         if circleView == recordButton {
             if voiceManager.isRecording {
                 stopRecord()
@@ -625,12 +645,8 @@ extension VoiceInput: CircleViewDelegate {
             }
         }
         else if circleView == playButton {
-            if voiceManager.isPlaying {
-                stopPlay()
-            }
-            else {
-                startPlay()
-            }
+            playButton.centerColor = playButtonCenterColorPressed
+            playButton.setNeedsDisplay()
         }
     }
 
@@ -638,27 +654,49 @@ extension VoiceInput: CircleViewDelegate {
         if circleView == recordButton {
             stopRecord()
         }
+        else if circleView == playButton {
+            playButton.centerColor = playButtonCenterColor
+            playButton.setNeedsDisplay()
+            if inside {
+                if voiceManager.isPlaying {
+                    stopPlay()
+                }
+                else {
+                    startPlay()
+                }
+            }
+        }
+    }
+    
+    public func circleViewDidTouchEnter(_ circleView: CircleView) {
+        if circleView == playButton {
+            playButton.centerColor = playButtonCenterColorPressed
+            playButton.setNeedsDisplay()
+        }
+    }
+    
+    public func circleViewDidTouchLeave(_ circleView: CircleView) {
+        if circleView == playButton {
+            playButton.centerColor = playButtonCenterColor
+            playButton.setNeedsDisplay()
+        }
     }
 
     public func circleViewDidTouchMove(_ circleView: CircleView, _ x: CGFloat, _ y: CGFloat) {
         if circleView == recordButton {
-
-            let previewButtonCenterX = -1 * (previewButtonMarginRight + previewButtonRadius + previewButtonBorderWidth)
-            let previewButtonCenterY = recordButtonRadius
-
-            var offsetX = x - previewButtonCenterX
-            var offsetY = y - previewButtonCenterY
+            
+            let offsetY = y - recordButtonRadius
+            
+            var centerX = -1 * (previewButtonMarginRight + previewButtonRadius + previewButtonBorderWidth)
+            var offsetX = x - centerX
 
             isPreviewButtonPressed = sqrt(offsetX * offsetX + offsetY * offsetY) <= previewButtonRadius
             if isPreviewButtonPressed {
                 return
             }
 
-            let deleteButtonCenterX = 2 * recordButtonRadius + deleteButtonMarginLeft + deleteButtonRadius + deleteButtonBorderWidth
-            let deleteButtonCenterY = recordButtonRadius
-
-            offsetX = x - deleteButtonCenterX
-            offsetY = y - deleteButtonCenterY
+            centerX = 2 * recordButtonRadius + deleteButtonMarginLeft + deleteButtonRadius + deleteButtonBorderWidth
+            offsetX = x - centerX
 
             isDeleteButtonPressed = sqrt(offsetX * offsetX + offsetY * offsetY) <= deleteButtonRadius
 
@@ -672,20 +710,6 @@ extension VoiceInput: CircleViewDelegate {
 //
 
 extension VoiceInput {
-
-    private func addLeftBorder(view: UIView, color: UIColor) {
-        let leftBorder = CALayer()
-        leftBorder.frame = CGRect(x: 0, y: 0, width: 0.5, height: view.frame.size.height)
-        leftBorder.backgroundColor = color.cgColor
-        view.layer.addSublayer(leftBorder)
-    }
-
-    private func addTopBorder(view: UIView, color: UIColor) {
-        let topBorder = CALayer()
-        topBorder.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 0.5)
-        topBorder.backgroundColor = color.cgColor
-        view.layer.addSublayer(topBorder)
-    }
 
     private func formatDuration(_ duration: Double) -> String {
 

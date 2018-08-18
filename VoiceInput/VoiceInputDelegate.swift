@@ -4,27 +4,32 @@ import UIKit
 public protocol VoiceInputDelegate {
     
     // 点击录音按钮时，发现没权限
-    func voiceInputWillRecordWithoutPermission(_ voiceInput: VoiceInput)
+    func voiceInputWillRecordWithoutPermissions(_ voiceInput: VoiceInput)
     
-    // 录音完成
+    // 录音结束或点击发送时触发
     func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, _ filePath: String, _ duration: TimeInterval)
     
+    // 录音时间太短
+    func voiceInputDidRecordDurationLessThanMinDuration(_ voiceInput: VoiceInput)
+    
     // 用户点击同意授权
-    func voiceInputDidPermissionGranted(_ voiceInput: VoiceInput)
+    func voiceInputDidPermissionsGranted(_ voiceInput: VoiceInput)
     
     // 用户点击拒绝授权
-    func voiceInputDidPermissionDenied(_ voiceInput: VoiceInput)
+    func voiceInputDidPermissionsDenied(_ voiceInput: VoiceInput)
 
 }
 
 public extension VoiceInputDelegate {
     
-    func voiceInputWillRecordWithoutPermission(_ voiceInput: VoiceInput) { }
+    func voiceInputWillRecordWithoutPermissions(_ voiceInput: VoiceInput) { }
     
     func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, _ filePath: String, _ duration: TimeInterval) { }
     
-    func voiceInputDidPermissionGranted(_ voiceInput: VoiceInput) { }
+    func voiceInputDidRecordDurationLessThanMinDuration(_ voiceInput: VoiceInput) { }
     
-    func voiceInputDidPermissionDenied(_ voiceInput: VoiceInput) { }
+    func voiceInputDidPermissionsGranted(_ voiceInput: VoiceInput) { }
+    
+    func voiceInputDidPermissionsDenied(_ voiceInput: VoiceInput) { }
     
 }

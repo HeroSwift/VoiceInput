@@ -6,12 +6,6 @@ import AVFoundation
 
 class VoiceManager: NSObject {
 
-    // 录音器
-    var recorder: AVAudioRecorder?
-
-    // 播放器
-    var player: AVAudioPlayer?
-
     // 是否正在录音
     var isRecording: Bool {
         get {
@@ -49,7 +43,8 @@ class VoiceManager: NSObject {
 
     // 当前正在录音的文件路径
     var filePath = ""
-
+    
+    // 录音文件的时长
     var fileDuration: TimeInterval = 0
 
     // 支持的最短录音时长
@@ -72,17 +67,29 @@ class VoiceManager: NSObject {
         }
     }
 
-    var onPermissionGranted: (() -> Void)?
-    var onPermissionDenied: (() -> Void)?
+    var onPermissionsGranted: (() -> Void)?
+    
+    var onPermissionsDenied: (() -> Void)?
+    
+    var onRecordWithoutPermissions: (() -> Void)?
+    
+    var onRecordDurationLessThanMinDuration: (() -> Void)?
 
     var onFinishRecord: ((_ success: Bool) -> Void)?
 
     var onFinishPlay: ((_ success: Bool) -> Void)?
+    
+    // 录音器
+    private var recorder: AVAudioRecorder?
+    
+    // 播放器
+    private var player: AVAudioPlayer?
 
     // 读取进入之前的 category
     // 用完音频后再重置回去
     private var defaultCategory = AVAudioSession.sharedInstance().category
 
+    // 判断是否有权限录音，如没有，发起授权请求
     func requestPermissions() {
 
         let session = AVAudioSession.sharedInstance()
@@ -90,10 +97,10 @@ class VoiceManager: NSObject {
         if session.recordPermission() == .undetermined {
             session.requestRecordPermission { (granted) in
                 if granted {
-                    self.onPermissionGranted?()
+                    self.onPermissionsGranted?()
                 }
                 else {
-                    self.onPermissionDenied?()
+                    self.onPermissionsDenied?()
                 }
             }
         }
@@ -130,6 +137,7 @@ class VoiceManager: NSObject {
         let session = AVAudioSession.sharedInstance()
 
         if session.recordPermission() != .granted {
+            onRecordWithoutPermissions?()
             throw VoiceManagerError.permissionIsDenied
         }
 
@@ -274,8 +282,13 @@ extension VoiceManager: AVAudioRecorderDelegate {
         if flag {
             if fileDuration >= minDuration {
                 onFinishRecord?(true)
-                return
             }
+            else {
+                deleteFile()
+                onRecordDurationLessThanMinDuration?()
+                onFinishRecord?(false)
+            }
+            return
         }
 
         deleteFile()
