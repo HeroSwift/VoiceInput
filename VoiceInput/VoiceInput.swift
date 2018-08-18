@@ -298,7 +298,7 @@ public class VoiceInput: UIView {
         do {
             try voiceManager.startPlay()
             if voiceManager.isPlaying {
-                playButton.setImage(stopButtonImage!)
+                playButton.centerImage = stopButtonImage
                 startTimer(interval: 1 / 60, selector: #selector(VoiceInput.onProgressUpdate))
             }
         }
@@ -331,8 +331,8 @@ public class VoiceInput: UIView {
 
     private func resetPreviewView() {
         progressLabel.text = formatDuration(voiceManager.fileDuration)
-
-        playButton.setImage(playButtonImage!)
+        
+        playButton.centerImage = playButtonImage
         playButton.trackValue = 0
         playButton.setNeedsDisplay()
     }
@@ -376,8 +376,8 @@ extension VoiceInput {
         recordButton.delegate = self
         recordButton.centerRadius = recordButtonRadius
         recordButton.centerColor = recordButtonBackgroundColorNormal
+        recordButton.centerImage = recordButtonImage
         recordButton.ringWidth = 0
-        recordButton.setImage(recordButtonImage!)
 
         recordButton.sizeToFit()
         recordButton.translatesAutoresizingMaskIntoConstraints = false
@@ -398,9 +398,9 @@ extension VoiceInput {
 
         previewButton.centerRadius = previewButtonRadius
         previewButton.centerColor = previewButtonBackgroundColorNormal
+        previewButton.centerImage = previewButtonImage
         previewButton.ringWidth = previewButtonBorderWidth
         previewButton.ringColor = previewButtonBorderColor
-        previewButton.setImage(previewButtonImage!)
 
         previewButton.sizeToFit()
         previewButton.translatesAutoresizingMaskIntoConstraints = false
@@ -421,9 +421,9 @@ extension VoiceInput {
 
         deleteButton.centerRadius = deleteButtonRadius
         deleteButton.centerColor = deleteButtonBackgroundColorNormal
+        deleteButton.centerImage = deleteButtonImage
         deleteButton.ringWidth = deleteButtonBorderWidth
         deleteButton.ringColor = deleteButtonBorderColor
-        deleteButton.setImage(deleteButtonImage!)
 
         deleteButton.sizeToFit()
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
@@ -496,12 +496,11 @@ extension VoiceInput {
         playButton.delegate = self
         playButton.centerRadius = playButtonCenterRadius
         playButton.centerColor = playButtonCenterColor
+        playButton.centerImage = playButtonImage
         playButton.ringWidth = playButtonRingWdith
         playButton.ringColor = playButtonRingColor
         playButton.trackWidth = playButtonRingWdith
         playButton.trackColor = playButtonTrackColor
-
-        playButton.setImage(playButtonImage!)
 
         playButton.sizeToFit()
         playButton.translatesAutoresizingMaskIntoConstraints = false
