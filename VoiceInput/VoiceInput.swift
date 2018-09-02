@@ -43,7 +43,7 @@ public class VoiceInput: UIView {
 
     var previewButtonRadius = CGFloat(30)
     var previewButtonImage = UIImage(named: "preview")
-    var previewButtonBorderWidth = CGFloat(0.5)
+    var previewButtonBorderWidth = 1 / UIScreen.main.scale
     var previewButtonBorderColor = UIColor(red: 187 / 255, green: 187 / 255, blue: 187 / 255, alpha: 1)
     var previewButtonBackgroundColorNormal = UIColor.white
     var previewButtonBackgroundColorHover = UIColor(red: 243 / 255, green: 243 / 255, blue: 243 / 255, alpha: 1)
@@ -51,7 +51,7 @@ public class VoiceInput: UIView {
 
     var deleteButtonRadius = CGFloat(30)
     var deleteButtonImage = UIImage(named: "delete")
-    var deleteButtonBorderWidth = CGFloat(0.5)
+    var deleteButtonBorderWidth = 1 / UIScreen.main.scale
     var deleteButtonBorderColor = UIColor(red: 187 / 255, green: 187 / 255, blue: 187 / 255, alpha: 1)
     var deleteButtonBackgroundColorNormal = UIColor.white
     var deleteButtonBackgroundColorHover = UIColor(red: 243 / 255, green: 243 / 255, blue: 243 / 255, alpha: 1)
@@ -90,8 +90,8 @@ public class VoiceInput: UIView {
     var footerButtonTextCancel = "取消"
     var footerButtonTextSend = "发送"
 
-    var fotterButtonPaddingTop = CGFloat(16)
-    var fotterButtonPaddingBottom = CGFloat(16)
+    var footerButtonPaddingTop = CGFloat(16)
+    var footerButtonPaddingBottom = CGFloat(16)
 
     var footerButtonTextColor = UIColor(red: 50 / 255, green: 50 / 255, blue: 50 / 255, alpha: 1)
     var footerButtonTextFont = UIFont.systemFont(ofSize: 16)
@@ -564,7 +564,7 @@ extension VoiceInput {
 
         cancelButton.titleLabel?.font = footerButtonTextFont
 
-        cancelButton.contentEdgeInsets = UIEdgeInsets(top: fotterButtonPaddingTop, left: 0, bottom: fotterButtonPaddingBottom, right: 0)
+        cancelButton.contentEdgeInsets = UIEdgeInsets(top: footerButtonPaddingTop, left: 0, bottom: footerButtonPaddingBottom, right: 0)
 
         cancelButton.sizeToFit()
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -582,7 +582,7 @@ extension VoiceInput {
         cancelButton.setBackgroundColor(color: footerButtonBackgroundColorNormal, for: .normal)
         cancelButton.setBackgroundColor(color: footerButtonBackgroundColorPressed, for: .highlighted)
 
-        cancelButton.onPress = {
+        cancelButton.onClick = {
             self.cancel()
         }
 
@@ -595,7 +595,7 @@ extension VoiceInput {
 
         sendButton.titleLabel?.font = footerButtonTextFont
 
-        sendButton.contentEdgeInsets = UIEdgeInsets(top: fotterButtonPaddingTop, left: 0, bottom: fotterButtonPaddingBottom, right: 0)
+        sendButton.contentEdgeInsets = UIEdgeInsets(top: footerButtonPaddingTop, left: 0, bottom: footerButtonPaddingBottom, right: 0)
         sendButton.sizeToFit()
         sendButton.translatesAutoresizingMaskIntoConstraints = false
 
@@ -612,7 +612,7 @@ extension VoiceInput {
         sendButton.setBackgroundColor(color: footerButtonBackgroundColorNormal, for: .normal)
         sendButton.setBackgroundColor(color: footerButtonBackgroundColorPressed, for: .highlighted)
 
-        sendButton.onPress = {
+        sendButton.onClick = {
             self.send()
         }
 
@@ -620,10 +620,12 @@ extension VoiceInput {
 
     public override func layoutSubviews() {
 
-        cancelButton.setTopBorder(width: 0.5, color: footerButtonBorderColor)
+        let borderWidth = 1 / UIScreen.main.scale
+        
+        cancelButton.setTopBorder(width: borderWidth, color: footerButtonBorderColor)
 
-        sendButton.setLeftBorder(width: 0.5, color: footerButtonBorderColor)
-        sendButton.setTopBorder(width: 0.5, color: footerButtonBorderColor)
+        sendButton.setLeftBorder(width: borderWidth, color: footerButtonBorderColor)
+        sendButton.setTopBorder(width: borderWidth, color: footerButtonBorderColor)
 
     }
 
