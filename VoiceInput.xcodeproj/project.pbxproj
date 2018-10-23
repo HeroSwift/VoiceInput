@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D001B74217EC63D00104861 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D001B73217EC63D00104861 /* Configuration.swift */; };
 		9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C612126F0170050F376 /* VoiceManager.swift */; };
 		9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B9421245D8F0050F376 /* VoiceInput.swift */; };
 		9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */; };
@@ -17,12 +18,19 @@
 		9DD98B8E21245D740050F376 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DD98B8C21245D740050F376 /* LaunchScreen.storyboard */; };
 		9DD98B9A21246BEF0050F376 /* CircleView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98B98212469B50050F376 /* CircleView.framework */; };
 		9DD98B9B21246BEF0050F376 /* CircleView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98B98212469B50050F376 /* CircleView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9DD98B9E212515AB0050F376 /* VoiceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B9421245D8F0050F376 /* VoiceInput.swift */; };
 		9DD98C0021255F130050F376 /* SimpleButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98BFF21255F120050F376 /* SimpleButton.framework */; };
 		9DD98C0121255F130050F376 /* SimpleButton.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98BFF21255F120050F376 /* SimpleButton.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9DD98C602126EDEE0050F376 /* VoiceInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */; };
-		9DD98C622126F0170050F376 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C612126F0170050F376 /* VoiceManager.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9D001B75217F31FA00104861 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9DD98B6921245D630050F376 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9DD98B7121245D630050F376;
+			remoteInfo = VoiceInput;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9DD98B9C21246BEF0050F376 /* Embed Frameworks */ = {
@@ -40,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D001B73217EC63D00104861 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		9DD98B7221245D630050F376 /* VoiceInput.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VoiceInput.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DD98B7621245D630050F376 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DD98B8121245D730050F376 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,6 +112,7 @@
 				9DD98B9421245D8F0050F376 /* VoiceInput.swift */,
 				9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */,
 				9DD98B7621245D630050F376 /* Info.plist */,
+				9D001B73217EC63D00104861 /* Configuration.swift */,
 			);
 			path = VoiceInput;
 			sourceTree = "<group>";
@@ -171,6 +181,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9D001B76217F31FA00104861 /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = Example;
@@ -242,6 +253,7 @@
 			files = (
 				9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */,
 				9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */,
+				9D001B74217EC63D00104861 /* Configuration.swift in Sources */,
 				9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,15 +262,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DD98B9E212515AB0050F376 /* VoiceInput.swift in Sources */,
 				9DD98B8621245D740050F376 /* ViewController.swift in Sources */,
-				9DD98C602126EDEE0050F376 /* VoiceInputDelegate.swift in Sources */,
-				9DD98C622126F0170050F376 /* VoiceManager.swift in Sources */,
 				9DD98B8421245D730050F376 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9D001B76217F31FA00104861 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9DD98B7121245D630050F376 /* VoiceInput */;
+			targetProxy = 9D001B75217F31FA00104861 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9DD98B8721245D740050F376 /* Main.storyboard */ = {

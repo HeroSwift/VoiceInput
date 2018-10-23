@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import VoiceInput
 
 class ViewController: UIViewController {
 
@@ -15,10 +15,20 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let input = VoiceInput()
-        input.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        input.backgroundColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
+        let input = VoiceInput(configuration: Configuration())
+        
+        input.backgroundColor = UIColor.gray
+        
+        input.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(input)
+        
+        view.addConstraints([
+            NSLayoutConstraint(item: input, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: input, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: input, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: input, attribute: .right, relatedBy: .equal, toItem: view, attribute: .right, multiplier: 1, constant: 0),
+        ])
         
     }
 

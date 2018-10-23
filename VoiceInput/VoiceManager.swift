@@ -75,9 +75,9 @@ class VoiceManager: NSObject {
     
     var onRecordDurationLessThanMinDuration: (() -> Void)?
 
-    var onFinishRecord: ((_ success: Bool) -> Void)?
+    var onFinishRecord: ((Bool) -> Void)?
 
-    var onFinishPlay: ((_ success: Bool) -> Void)?
+    var onFinishPlay: ((Bool) -> Void)?
     
     // 录音器
     private var recorder: AVAudioRecorder?
@@ -95,7 +95,7 @@ class VoiceManager: NSObject {
         let session = AVAudioSession.sharedInstance()
 
         if session.recordPermission() == .undetermined {
-            session.requestRecordPermission { (granted) in
+            session.requestRecordPermission { granted in
                 if granted {
                     self.onPermissionsGranted?()
                 }
