@@ -36,7 +36,7 @@ public class VoiceInput: UIView {
     // MARK: - 私有属性
     //
 
-    private var configuration: Configuration!
+    private var configuration: VoiceInputConfiguration!
 
     private var isPreviewButtonPressed = false {
         didSet {
@@ -102,7 +102,7 @@ public class VoiceInput: UIView {
     // 刷新时长的 timer
     var timer: Timer?
 
-    public convenience init(configuration: Configuration) {
+    public convenience init(configuration: VoiceInputConfiguration) {
         self.init()
         self.configuration = configuration
         setup()
@@ -150,7 +150,6 @@ public class VoiceInput: UIView {
     }
 
     private func startTimer(interval: TimeInterval, selector: Selector) {
-        print("start timer")
         timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: selector, userInfo: nil, repeats: true)
     }
 
@@ -158,7 +157,6 @@ public class VoiceInput: UIView {
         guard let timer = timer else {
             return
         }
-        print("stop timer")
         timer.invalidate()
         self.timer = nil
     }

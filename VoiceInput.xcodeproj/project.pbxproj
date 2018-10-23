@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9D001B74217EC63D00104861 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D001B73217EC63D00104861 /* Configuration.swift */; };
+		9D001B74217EC63D00104861 /* VoiceInputConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */; };
 		9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C612126F0170050F376 /* VoiceManager.swift */; };
 		9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B9421245D8F0050F376 /* VoiceInput.swift */; };
 		9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */; };
@@ -48,7 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		9D001B73217EC63D00104861 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputConfiguration.swift; sourceTree = "<group>"; };
 		9DD98B7221245D630050F376 /* VoiceInput.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VoiceInput.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DD98B7621245D630050F376 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DD98B8121245D730050F376 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,7 +112,7 @@
 				9DD98B9421245D8F0050F376 /* VoiceInput.swift */,
 				9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */,
 				9DD98B7621245D630050F376 /* Info.plist */,
-				9D001B73217EC63D00104861 /* Configuration.swift */,
+				9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */,
 			);
 			path = VoiceInput;
 			sourceTree = "<group>";
@@ -253,7 +253,7 @@
 			files = (
 				9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */,
 				9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */,
-				9D001B74217EC63D00104861 /* Configuration.swift in Sources */,
+				9D001B74217EC63D00104861 /* VoiceInputConfiguration.swift in Sources */,
 				9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

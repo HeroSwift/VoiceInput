@@ -2,7 +2,7 @@
 import UIKit
 
 // 配置
-public class Configuration {
+public class VoiceInputConfiguration {
     
     //
     // MARK: - 录制界面 配置

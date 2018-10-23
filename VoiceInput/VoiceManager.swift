@@ -151,8 +151,6 @@ class VoiceManager: NSObject {
 
         filePath = "\(fileDir)/\(format.string(from: Date()))\(audioExtname)"
 
-        print("record file path: \(filePath)")
-
         fileDuration = 0
 
         let recordSettings: [String: Any] = [
@@ -182,8 +180,6 @@ class VoiceManager: NSObject {
             recorder.isMeteringEnabled = true
             recorder.prepareToRecord()
             recorder.record(forDuration: maxDuration)
-
-            print("start record")
 
         }
 
@@ -230,8 +226,6 @@ class VoiceManager: NSObject {
             player.prepareToPlay()
             player.play()
 
-            print("start play: \(filePath)")
-
         }
 
     }
@@ -277,8 +271,6 @@ extension VoiceManager: AVAudioRecorderDelegate {
 
     public func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
 
-        print("finish record: \(flag)")
-
         if flag {
             if fileDuration >= minDuration {
                 onFinishRecord?(true)
@@ -308,7 +300,6 @@ extension VoiceManager: AVAudioPlayerDelegate {
     }
 
     public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        print("finish play: \(flag)")
         onFinishPlay?(flag)
     }
 
