@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         
         let input = VoiceInput(configuration: Configuration())
         
-        input.backgroundColor = UIColor.gray
+        view.backgroundColor = UIColor.gray
         
         input.translatesAutoresizingMaskIntoConstraints = false
         

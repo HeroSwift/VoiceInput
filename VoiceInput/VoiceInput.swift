@@ -316,7 +316,7 @@ public class VoiceInput: UIView {
 extension VoiceInput {
 
     private func addRecordView() {
-
+        
         recordView.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(recordView)
@@ -346,7 +346,6 @@ extension VoiceInput {
         recordButton.ringWidth = configuration.previewButtonBorderWidth
         recordButton.ringColor = configuration.previewButtonBorderColor
 
-        recordButton.sizeToFit()
         recordButton.translatesAutoresizingMaskIntoConstraints = false
 
         recordView.addSubview(recordButton)
@@ -368,14 +367,13 @@ extension VoiceInput {
         previewButton.ringWidth = configuration.previewButtonBorderWidth
         previewButton.ringColor = configuration.previewButtonBorderColor
 
-        previewButton.sizeToFit()
         previewButton.translatesAutoresizingMaskIntoConstraints = false
 
         recordView.addSubview(previewButton)
 
         addConstraints([
             NSLayoutConstraint(item: previewButton, attribute: .centerY, relatedBy: .equal, toItem: recordButton, attribute: .centerY, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: previewButton, attribute: .trailing, relatedBy: .equal, toItem: recordButton, attribute: .leading, multiplier: 1, constant: -configuration.previewButtonMarginRight),
+            NSLayoutConstraint(item: previewButton, attribute: .right, relatedBy: .equal, toItem: recordButton, attribute: .left, multiplier: 1, constant: -configuration.previewButtonMarginRight),
         ])
 
     }
@@ -390,14 +388,13 @@ extension VoiceInput {
         deleteButton.ringWidth = configuration.deleteButtonBorderWidth
         deleteButton.ringColor = configuration.deleteButtonBorderColor
 
-        deleteButton.sizeToFit()
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
 
         recordView.addSubview(deleteButton)
 
         addConstraints([
             NSLayoutConstraint(item: deleteButton, attribute: .centerY, relatedBy: .equal, toItem: recordButton, attribute: .centerY, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: deleteButton, attribute: .leading, relatedBy: .equal, toItem: recordButton, attribute: .trailing, multiplier: 1, constant: configuration.deleteButtonMarginLeft)
+            NSLayoutConstraint(item: deleteButton, attribute: .left, relatedBy: .equal, toItem: recordButton, attribute: .right, multiplier: 1, constant: configuration.deleteButtonMarginLeft)
         ])
 
     }
@@ -443,8 +440,15 @@ extension VoiceInput {
     private func addPreviewView() {
 
         previewView.isHidden = true
-        previewView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: frame.size)
+        previewView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(previewView)
+        
+        addConstraints([
+            NSLayoutConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: previewView, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: previewView, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1, constant: 0),
+        ])
 
         addPlayButton()
         addProgressLabel()
@@ -464,9 +468,7 @@ extension VoiceInput {
         playButton.trackWidth = configuration.playButtonRingWidth
         playButton.trackColor = configuration.playButtonTrackColor
 
-        playButton.sizeToFit()
         playButton.translatesAutoresizingMaskIntoConstraints = false
-
 
         previewView.addSubview(playButton)
 
@@ -512,8 +514,8 @@ extension VoiceInput {
 
         addConstraints([
             NSLayoutConstraint(item: cancelButton, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: cancelButton, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: cancelButton, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1, constant: 0)
+            NSLayoutConstraint(item: cancelButton, attribute: .left, relatedBy: .equal, toItem: previewView, attribute: .left, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: cancelButton, attribute: .right, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1, constant: 0)
         ])
 
         cancelButton.setBackgroundColor(color: configuration.footerButtonBackgroundColorNormal, for: .normal)
@@ -533,6 +535,7 @@ extension VoiceInput {
         sendButton.titleLabel?.font = configuration.footerButtonTextFont
 
         sendButton.contentEdgeInsets = UIEdgeInsets(top: configuration.footerButtonPaddingTop, left: 0, bottom: configuration.footerButtonPaddingBottom, right: 0)
+        
         sendButton.sizeToFit()
         sendButton.translatesAutoresizingMaskIntoConstraints = false
 
@@ -540,8 +543,8 @@ extension VoiceInput {
 
         addConstraints([
             NSLayoutConstraint(item: sendButton, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: sendButton, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: sendButton, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: sendButton, attribute: .left, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: sendButton, attribute: .right, relatedBy: .equal, toItem: previewView, attribute: .right, multiplier: 1, constant: 0),
         ])
 
         sendButton.setBackgroundColor(color: configuration.footerButtonBackgroundColorNormal, for: .normal)
@@ -555,12 +558,10 @@ extension VoiceInput {
 
     public override func layoutSubviews() {
 
-        let borderWidth = 1 / UIScreen.main.scale
+        cancelButton.setTopBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
 
-        cancelButton.setTopBorder(width: borderWidth, color: configuration.footerButtonBorderColor)
-
-        sendButton.setLeftBorder(width: borderWidth, color: configuration.footerButtonBorderColor)
-        sendButton.setTopBorder(width: borderWidth, color: configuration.footerButtonBorderColor)
+        sendButton.setLeftBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
+        sendButton.setTopBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
 
     }
 

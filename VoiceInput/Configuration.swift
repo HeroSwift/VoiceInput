@@ -139,12 +139,15 @@ public class Configuration {
     
     // 底部按钮的 padding bottom
     public var footerButtonPaddingBottom: CGFloat = 16
-    
+
     // 底部按钮的文本颜色
     public var footerButtonTextColor = UIColor(red: 50 / 255, green: 50 / 255, blue: 50 / 255, alpha: 1)
     
     // 底部按钮的文本字体
     public var footerButtonTextFont = UIFont.systemFont(ofSize: 16)
+    
+    // 底部按钮的边框大小
+    public var footerButtonBorderWidth = 1 / UIScreen.main.scale
     
     // 底部按钮的边框颜色
     public var footerButtonBorderColor = UIColor(red: 210 / 255, green: 210 / 255, blue: 210 / 255, alpha: 1)
