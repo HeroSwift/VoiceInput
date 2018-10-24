@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9D001B74217EC63D00104861 /* VoiceInputConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */; };
+		9D001B7B21806A0000104861 /* SimpleButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7921806A0000104861 /* SimpleButton.framework */; };
+		9D001B7C21806A0000104861 /* CircleView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7A21806A0000104861 /* CircleView.framework */; };
 		9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C612126F0170050F376 /* VoiceManager.swift */; };
 		9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B9421245D8F0050F376 /* VoiceInput.swift */; };
 		9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */; };
@@ -30,6 +32,8 @@
 
 /* Begin PBXFileReference section */
 		9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputConfiguration.swift; sourceTree = "<group>"; };
+		9D001B7921806A0000104861 /* SimpleButton.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SimpleButton.framework; path = Carthage/Build/iOS/SimpleButton.framework; sourceTree = "<group>"; };
+		9D001B7A21806A0000104861 /* CircleView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CircleView.framework; path = Carthage/Build/iOS/CircleView.framework; sourceTree = "<group>"; };
 		9DD98B7221245D630050F376 /* VoiceInput.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VoiceInput.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DD98B7621245D630050F376 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DD98B8121245D730050F376 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +60,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D001B7B21806A0000104861 /* SimpleButton.framework in Frameworks */,
+				9D001B7C21806A0000104861 /* CircleView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +115,8 @@
 		9DD98B97212469B50050F376 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D001B7A21806A0000104861 /* CircleView.framework */,
+				9D001B7921806A0000104861 /* SimpleButton.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -151,6 +159,7 @@
 				9DD98B7D21245D730050F376 /* Sources */,
 				9DD98B7E21245D730050F376 /* Frameworks */,
 				9DD98B7F21245D730050F376 /* Resources */,
+				9D001B7D21806A2300104861 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -219,6 +228,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9D001B7D21806A2300104861 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/CircleView.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SimpleButton.framework",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CircleView.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SimpleButton.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9DD98B6D21245D630050F376 /* Sources */ = {
