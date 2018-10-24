@@ -90,7 +90,7 @@ class VoiceManager: NSObject {
     private var defaultCategory = AVAudioSession.sharedInstance().category
 
     // 判断是否有权限录音，如没有，发起授权请求
-    func requestPermissions() {
+    func requestPermissions() -> Bool {
 
         let session = AVAudioSession.sharedInstance()
 
@@ -103,7 +103,10 @@ class VoiceManager: NSObject {
                     self.onPermissionsDenied?()
                 }
             }
+            return false
         }
+        
+        return session.recordPermission() == .granted
 
     }
 
@@ -134,9 +137,7 @@ class VoiceManager: NSObject {
 
     func startRecord() throws {
 
-        let session = AVAudioSession.sharedInstance()
-
-        if session.recordPermission() != .granted {
+        if !requestPermissions() {
             onRecordWithoutPermissions?()
         }
         

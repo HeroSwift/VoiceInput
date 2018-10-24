@@ -135,16 +135,16 @@ public class VoiceInputConfiguration {
     public var footerButtonTextSend = "发送"
     
     // 底部按钮的 padding top
-    public var footerButtonPaddingTop: CGFloat = 16
+    public var footerButtonPaddingTop: CGFloat = 14
     
     // 底部按钮的 padding bottom
-    public var footerButtonPaddingBottom: CGFloat = 16
+    public var footerButtonPaddingBottom: CGFloat = 14
 
     // 底部按钮的文本颜色
     public var footerButtonTextColor = UIColor(red: 90 / 255, green: 90 / 255, blue: 90 / 255, alpha: 1)
     
     // 底部按钮的文本字体
-    public var footerButtonTextFont = UIFont.systemFont(ofSize: 16)
+    public var footerButtonTextFont = UIFont.systemFont(ofSize: 14)
     
     // 底部按钮的边框大小
     public var footerButtonBorderWidth = 1 / UIScreen.main.scale

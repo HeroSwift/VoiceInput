@@ -145,8 +145,8 @@ public class VoiceInput: UIView {
     /**
      * 请求麦克风权限
      */
-    func requestPermissions() {
-        voiceManager.requestPermissions()
+    func requestPermissions() -> Bool {
+        return voiceManager.requestPermissions()
     }
 
     private func startTimer(interval: TimeInterval, selector: Selector) {
@@ -195,6 +195,7 @@ public class VoiceInput: UIView {
 
                 guideLabel.isHidden = true
                 durationLabel.isHidden = false
+                durationLabel.text = formatDuration(0)
 
                 startTimer(interval: 0.1, selector: #selector(VoiceInput.onDurationUpdate))
             }
@@ -234,7 +235,7 @@ public class VoiceInput: UIView {
 
         isPreviewButtonPressed = false
         isDeleteButtonPressed = false
-
+        
         recordButton.centerColor = configuration.recordButtonBackgroundColorNormal
         recordButton.setNeedsDisplay()
 
@@ -243,8 +244,6 @@ public class VoiceInput: UIView {
 
         guideLabel.isHidden = false
         durationLabel.isHidden = true
-
-        durationLabel.text = formatDuration(0)
 
     }
 
@@ -573,6 +572,9 @@ extension VoiceInput: CircleViewDelegate {
 
     public func circleViewDidTouchDown(_ circleView: CircleView) {
         if circleView == recordButton {
+            if !voiceManager.requestPermissions() {
+                return
+            }
             if voiceManager.isRecording {
                 stopRecord()
             }
