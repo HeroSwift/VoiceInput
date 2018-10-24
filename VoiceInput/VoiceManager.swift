@@ -39,7 +39,7 @@ class VoiceManager: NSObject {
     var audioSampleRate = 44100.0
 
     // 保存录音文件的目录
-    var fileDir = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first
+    var fileDir = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!
 
     // 当前正在录音的文件路径
     var filePath = ""
@@ -138,16 +138,16 @@ class VoiceManager: NSObject {
 
         if session.recordPermission() != .granted {
             onRecordWithoutPermissions?()
-            throw VoiceManagerError.permissionIsDenied
         }
-
-        guard let fileDir = fileDir else {
-            throw VoiceManagerError.fileDirIsMissing
+        
+        let fileManager = FileManager.default
+        if !fileManager.fileExists(atPath: fileDir) {
+            try fileManager.createDirectory(atPath: fileDir, withIntermediateDirectories: true, attributes: nil)
         }
 
         // 生成录音文件的路径
         let format = DateFormatter()
-        format.dateFormat = "yyyy-MM-dd-HH-mm-ss"
+        format.dateFormat = "yyyy_MM_dd_HH_mm_ss"
 
         filePath = "\(fileDir)/\(format.string(from: Date()))\(audioExtname)"
 

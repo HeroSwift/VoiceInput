@@ -141,7 +141,7 @@ public class VoiceInputConfiguration {
     public var footerButtonPaddingBottom: CGFloat = 16
 
     // 底部按钮的文本颜色
-    public var footerButtonTextColor = UIColor(red: 50 / 255, green: 50 / 255, blue: 50 / 255, alpha: 1)
+    public var footerButtonTextColor = UIColor(red: 90 / 255, green: 90 / 255, blue: 90 / 255, alpha: 1)
     
     // 底部按钮的文本字体
     public var footerButtonTextFont = UIFont.systemFont(ofSize: 16)

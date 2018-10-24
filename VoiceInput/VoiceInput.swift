@@ -167,17 +167,17 @@ public class VoiceInput: UIView {
 
     @objc private func onProgressUpdate() {
 
-        progressLabel.text = formatDuration(voiceManager.progress)
-
         // 接近就直接 1 吧
         // 避免总是不能满圆的情况
         var trackValue = voiceManager.progress / voiceManager.fileDuration
-        if (trackValue > 0.995) {
+        if (trackValue > 0.99) {
             trackValue = 1
         }
         playButton.trackValue = trackValue
         playButton.setNeedsDisplay()
 
+        progressLabel.text = formatDuration(voiceManager.progress)
+        
     }
 
     private func startRecord() {
