@@ -16,10 +16,6 @@
 		9DD98B8921245D740050F376 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DD98B8721245D740050F376 /* Main.storyboard */; };
 		9DD98B8B21245D740050F376 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DD98B8A21245D740050F376 /* Assets.xcassets */; };
 		9DD98B8E21245D740050F376 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DD98B8C21245D740050F376 /* LaunchScreen.storyboard */; };
-		9DD98B9A21246BEF0050F376 /* CircleView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98B98212469B50050F376 /* CircleView.framework */; };
-		9DD98B9B21246BEF0050F376 /* CircleView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98B98212469B50050F376 /* CircleView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9DD98C0021255F130050F376 /* SimpleButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98BFF21255F120050F376 /* SimpleButton.framework */; };
-		9DD98C0121255F130050F376 /* SimpleButton.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98BFF21255F120050F376 /* SimpleButton.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,21 +27,6 @@
 			remoteInfo = VoiceInput;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		9DD98B9C21246BEF0050F376 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9DD98C0121255F130050F376 /* SimpleButton.framework in Embed Frameworks */,
-				9DD98B9B21246BEF0050F376 /* CircleView.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputConfiguration.swift; sourceTree = "<group>"; };
@@ -59,8 +40,6 @@
 		9DD98B8D21245D740050F376 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9DD98B8F21245D740050F376 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DD98B9421245D8F0050F376 /* VoiceInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceInput.swift; sourceTree = "<group>"; };
-		9DD98B98212469B50050F376 /* CircleView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CircleView.framework; path = Carthage/Build/iOS/CircleView.framework; sourceTree = "<group>"; };
-		9DD98BFF21255F120050F376 /* SimpleButton.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SimpleButton.framework; path = Carthage/Build/iOS/SimpleButton.framework; sourceTree = "<group>"; };
 		9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputDelegate.swift; sourceTree = "<group>"; };
 		9DD98C612126F0170050F376 /* VoiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,8 +56,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DD98C0021255F130050F376 /* SimpleButton.framework in Frameworks */,
-				9DD98B9A21246BEF0050F376 /* CircleView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,7 +65,6 @@
 		9DD98B6821245D630050F376 = {
 			isa = PBXGroup;
 			children = (
-				9DD98BFF21255F120050F376 /* SimpleButton.framework */,
 				9DD98B7421245D630050F376 /* VoiceInput */,
 				9DD98B8221245D730050F376 /* Example */,
 				9DD98B7321245D630050F376 /* Products */,
@@ -133,7 +109,6 @@
 		9DD98B97212469B50050F376 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9DD98B98212469B50050F376 /* CircleView.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -176,7 +151,6 @@
 				9DD98B7D21245D730050F376 /* Sources */,
 				9DD98B7E21245D730050F376 /* Frameworks */,
 				9DD98B7F21245D730050F376 /* Resources */,
-				9DD98B9C21246BEF0050F376 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -489,7 +463,6 @@
 		9DD98B9121245D740050F376 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = N276SVAZ33;
@@ -515,7 +488,6 @@
 		9DD98B9221245D740050F376 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = N276SVAZ33;
