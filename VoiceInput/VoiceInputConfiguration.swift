@@ -12,7 +12,7 @@ public class VoiceInputConfiguration {
     public var recordButtonRadius: CGFloat = 60
     
     // 录制按钮图标
-    public var recordButtonImage = UIImage(named: "mic")
+    public var recordButtonImage = UIImage(named: "mic", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 录制按钮边框大小
     public var recordButtonBorderWidth = 1 / UIScreen.main.scale
@@ -30,7 +30,7 @@ public class VoiceInputConfiguration {
     public var previewButtonRadius: CGFloat = 30
     
     // 试听按钮图标
-    public var previewButtonImage = UIImage(named: "preview")
+    public var previewButtonImage = UIImage(named: "preview", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 试听按钮边框大小
     public var previewButtonBorderWidth = 1 / UIScreen.main.scale
@@ -51,7 +51,7 @@ public class VoiceInputConfiguration {
     public var deleteButtonRadius: CGFloat = 30
     
     // 删除按钮图标
-    public var deleteButtonImage = UIImage(named: "delete")
+    public var deleteButtonImage = UIImage(named: "delete", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 删除按钮边框大小
     public var deleteButtonBorderWidth = 1 / UIScreen.main.scale
@@ -123,10 +123,10 @@ public class VoiceInputConfiguration {
     public var playButtonTrackColor = UIColor(red: 41 / 255, green: 181 / 255, blue: 234 / 255, alpha: 1)
     
     // 播放按钮图标
-    public var playButtonImage = UIImage(named: "play")
+    public var playButtonImage = UIImage(named: "play", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 停止按钮图标
-    public var stopButtonImage = UIImage(named: "stop")
+    public var stopButtonImage = UIImage(named: "stop", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 底部的取消按钮文本
     public var footerButtonTextCancel = "取消"
