@@ -21,10 +21,10 @@ public class VoiceInputConfiguration {
     public var recordButtonBorderColor = UIColor(red: 187 / 255, green: 187 / 255, blue: 187 / 255, alpha: 1)
     
     // 录制按钮默认背景色
-    public var recordButtonBackgroundColorNormal = UIColor(red: 41 / 255, green: 181 / 255, blue: 234 / 255, alpha: 1)
+    public var recordButtonBackgroundColorNormal = UIColor(red: 1.00, green: 0.61, blue: 0.00, alpha: 1.00)
     
     // 录制按钮按下时的背景色
-    public var recordButtonBackgroundColorPressed = UIColor(red: 14 / 255, green: 164 / 255, blue: 221 / 255, alpha: 1)
+    public var recordButtonBackgroundColorPressed = UIColor(red: 0.99, green: 0.45, blue: 0.04, alpha: 1.00)
     
     // 试听按钮半径
     public var previewButtonRadius: CGFloat = 30
@@ -72,25 +72,25 @@ public class VoiceInputConfiguration {
     public var guideLabelTextColor = UIColor(red: 160 / 255, green: 160 / 255, blue: 160 / 255, alpha: 1)
     
     // 录音引导文本字体
-    public var guideLabelTextFont = UIFont.systemFont(ofSize: 17)
+    public var guideLabelTextFont = UIFont.systemFont(ofSize: 15)
     
     // 录音引导文本与录音按钮的距离
     public var guideLabelMarginBottom: CGFloat = 30
     
     // 录音引导文本 - 未按下
-    public var guideTextNormal = "按住说话"
+    public var guideLabelTitleNormal = "按住说话"
     
     // 录音引导文本 - 按下并移动到试听按钮上方
-    public var guideTextPreview = "松手试听"
+    public var guideLabelTitlePreview = "松手试听"
     
     // 录音引导文本 - 按下并移动到删除按钮上方
-    public var guideTextDelete = "松手取消发送"
+    public var guideLabelTitleDelete = "松手取消发送"
     
     // 正在录音的时长文本颜色
     public var durationLabelTextColor = UIColor(red: 160 / 255, green: 160 / 255, blue: 160 / 255, alpha: 1)
     
     // 正在录音的时长文本颜色
-    public var durationLabelTextFont = UIFont.systemFont(ofSize: 17)
+    public var durationLabelTextFont = UIFont.systemFont(ofSize: 15)
     
     // 正在录音的时长文本与录音按钮的距离
     public var durationLabelMarginBottom: CGFloat = 30
@@ -99,7 +99,7 @@ public class VoiceInputConfiguration {
     public var progressLabelTextColor = UIColor(red: 160 / 255, green: 160 / 255, blue: 160 / 255, alpha: 1)
     
     // 试听的进度文本字体
-    public var progressLabelTextFont = UIFont.systemFont(ofSize: 17)
+    public var progressLabelTextFont = UIFont.systemFont(ofSize: 15)
     
     // 试听的进度文本与播放按钮的距离
     public var progressLabelMarginBottom: CGFloat = 25
@@ -120,7 +120,7 @@ public class VoiceInputConfiguration {
     public var playButtonRingColor = UIColor(red: 230 / 255, green: 230 / 255, blue: 230 / 255, alpha: 1)
     
     // 播放按钮进度条的颜色
-    public var playButtonTrackColor = UIColor(red: 41 / 255, green: 181 / 255, blue: 234 / 255, alpha: 1)
+    public var playButtonTrackColor = UIColor(red: 1.00, green: 0.61, blue: 0.00, alpha: 1.00)
     
     // 播放按钮图标
     public var playButtonImage = UIImage(named: "play", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
@@ -158,6 +158,17 @@ public class VoiceInputConfiguration {
     // 底部按钮按下时的背景色
     public var footerButtonBackgroundColorPressed = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
     
+    // 保存录音文件的目录
+    public var fileDir = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!
+    
+    // 文件扩展名
+    public var fileExtname = ".m4a"
+
+    // 支持的最短录音时长
+    var minDuration: TimeInterval = 1
+    
+    // 支持的最长录音时长
+    var maxDuration: TimeInterval = 60
     
     public init() { }
     

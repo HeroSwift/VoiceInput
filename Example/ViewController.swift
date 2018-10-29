@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         view.backgroundColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
         
         input.translatesAutoresizingMaskIntoConstraints = false
-        
+        input.delegate = self
         view.addSubview(input)
         
         view.addConstraints([
@@ -40,3 +40,26 @@ class ViewController: UIViewController {
 
 }
 
+extension ViewController: VoiceInputDelegate {
+    
+    func voiceInputWillRecordWithoutPermissions(_ voiceInput: VoiceInput) {
+        print("no permissions")
+    }
+    
+    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, _ filePath: String, _ duration: TimeInterval) {
+        print("\(filePath) \(duration)")
+    }
+    
+    func voiceInputDidRecordDurationLessThanMinDuration(_ voiceInput: VoiceInput) {
+        print("less than min duration")
+    }
+    
+    func voiceInputDidPermissionsGranted(_ voiceInput: VoiceInput) {
+        print("permissions granted")
+    }
+    
+    func voiceInputDidPermissionsDenied(_ voiceInput: VoiceInput) {
+        print("permissions denied")
+    }
+    
+}

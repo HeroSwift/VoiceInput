@@ -20,9 +20,6 @@ class VoiceManager: NSObject {
         }
     }
 
-    // 文件扩展名
-    var audioExtname = ".m4a"
-
     // 音频格式
     var audioFormat = kAudioFormatMPEG4AAC
 
@@ -38,20 +35,11 @@ class VoiceManager: NSObject {
     // 采样率
     var audioSampleRate = 44100.0
 
-    // 保存录音文件的目录
-    var fileDir = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!
-
     // 当前正在录音的文件路径
     var filePath = ""
     
     // 录音文件的时长
     var fileDuration: TimeInterval = 0
-
-    // 支持的最短录音时长
-    var minDuration: TimeInterval = 1
-
-    // 支持的最长录音时长
-    var maxDuration: TimeInterval = 60
 
     // 外部实时读取的录音时长
     var duration: Double {
@@ -88,6 +76,13 @@ class VoiceManager: NSObject {
     // 读取进入之前的 category
     // 用完音频后再重置回去
     private var defaultCategory = AVAudioSession.sharedInstance().category
+    
+    private var configuration: VoiceInputConfiguration!
+    
+    convenience init(configuration: VoiceInputConfiguration) {
+        self.init()
+        self.configuration = configuration
+    }
 
     // 判断是否有权限录音，如没有，发起授权请求
     func requestPermissions() -> Bool {
@@ -141,16 +136,7 @@ class VoiceManager: NSObject {
             onRecordWithoutPermissions?()
         }
         
-        let fileManager = FileManager.default
-        if !fileManager.fileExists(atPath: fileDir) {
-            try fileManager.createDirectory(atPath: fileDir, withIntermediateDirectories: true, attributes: nil)
-        }
-
-        // 生成录音文件的路径
-        let format = DateFormatter()
-        format.dateFormat = "yyyy_MM_dd_HH_mm_ss"
-
-        filePath = "\(fileDir)/\(format.string(from: Date()))\(audioExtname)"
+        filePath = getFilePath(dirname: configuration.fileDir, extname: configuration.fileExtname)
 
         fileDuration = 0
 
@@ -180,7 +166,7 @@ class VoiceManager: NSObject {
             recorder.delegate = self
             recorder.isMeteringEnabled = true
             recorder.prepareToRecord()
-            recorder.record(forDuration: maxDuration)
+            recorder.record(forDuration: configuration.maxDuration)
 
         }
 
@@ -231,10 +217,10 @@ class VoiceManager: NSObject {
 
     }
 
-    func stopPlay() throws {
+    func stopPlay() {
 
         guard isPlaying else {
-            throw VoiceManagerError.playerIsNotRunning
+            return
         }
 
         if let player = player {
@@ -273,7 +259,7 @@ extension VoiceManager: AVAudioRecorderDelegate {
     public func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
 
         if flag {
-            if fileDuration >= minDuration {
+            if fileDuration >= configuration.minDuration {
                 onFinishRecord?(true)
             }
             else {
@@ -306,6 +292,29 @@ extension VoiceManager: AVAudioPlayerDelegate {
 
 }
 
+//
+// MARK: - 工具方法
+//
+
+extension VoiceManager {
+    
+    // 生成一个文件路径
+    func getFilePath(dirname: String, extname: String) -> String {
+        
+        let fileManager = FileManager.default
+        if !fileManager.fileExists(atPath: dirname) {
+            try? fileManager.createDirectory(atPath: dirname, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        let format = DateFormatter()
+        format.dateFormat = "yyyy_MM_dd_HH_mm_ss"
+        
+        return "\(dirname)/\(format.string(from: Date()))\(extname)"
+        
+    }
+    
+}
+
 enum VoiceManagerError: Swift.Error {
     
     // 没有指定录音目录
@@ -322,9 +331,6 @@ enum VoiceManagerError: Swift.Error {
     
     // 没有录音文件
     case audioFileIsNotExisted
-    
-    // 播放器没在运行中
-    case playerIsNotRunning
     
     // 播放器不可用
     case playerIsNotAvailable

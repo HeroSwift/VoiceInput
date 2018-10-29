@@ -94,8 +94,8 @@
 			children = (
 				9DD98C612126F0170050F376 /* VoiceManager.swift */,
 				9DD98B9421245D8F0050F376 /* VoiceInput.swift */,
-				9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */,
 				9DD98B7621245D630050F376 /* Info.plist */,
+				9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */,
 				9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */,
 				9DE04C0B2184A0CF00B6D85B /* Assets.xcassets */,
 			);
@@ -448,6 +448,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finstao.VoiceInput;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -483,6 +484,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finstao.VoiceInput;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

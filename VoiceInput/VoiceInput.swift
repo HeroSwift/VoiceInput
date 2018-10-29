@@ -5,35 +5,35 @@ import SimpleButton
 
 public class VoiceInput: UIView {
 
-    var delegate: VoiceInputDelegate?
+    public var delegate: VoiceInputDelegate!
 
     //
     // MARK: - 录制界面
     //
 
-    var recordView = UIView()
+    private var recordView = UIView()
 
-    var recordButton = CircleView()
-    var previewButton = CircleView()
-    var deleteButton = CircleView()
+    private var recordButton = CircleView()
+    private var previewButton = CircleView()
+    private var deleteButton = CircleView()
 
-    var guideLabel = UILabel()
-    var durationLabel = UILabel()
+    private var guideLabel = UILabel()
+    private var durationLabel = UILabel()
 
     //
     // MARK: - 预览界面
     //
 
-    var previewView = UIView()
+    private var previewView = UIView()
 
-    var progressLabel = UILabel()
-    var playButton = CircleView()
+    private var progressLabel = UILabel()
+    private var playButton = CircleView()
 
-    var cancelButton = SimpleButton()
-    var sendButton = SimpleButton()
+    private var cancelButton = SimpleButton()
+    private var sendButton = SimpleButton()
 
     //
-    // MARK: - 私有属性
+    // MARK: - 其他属性
     //
 
     private var configuration: VoiceInputConfiguration!
@@ -47,13 +47,13 @@ public class VoiceInput: UIView {
                 previewButton.centerColor = configuration.previewButtonBackgroundColorHover
                 guideLabel.isHidden = false
                 durationLabel.isHidden = true
-                guideLabel.text = configuration.guideTextPreview
+                guideLabel.text = configuration.guideLabelTitlePreview
             }
             else {
                 previewButton.centerColor = configuration.previewButtonBackgroundColorNormal
                 guideLabel.isHidden = true
                 durationLabel.isHidden = false
-                guideLabel.text = configuration.guideTextNormal
+                guideLabel.text = configuration.guideLabelTitleNormal
             }
             previewButton.setNeedsDisplay()
         }
@@ -68,13 +68,13 @@ public class VoiceInput: UIView {
                 deleteButton.centerColor = configuration.deleteButtonBackgroundColorHover
                 guideLabel.isHidden = false
                 durationLabel.isHidden = true
-                guideLabel.text = configuration.guideTextDelete
+                guideLabel.text = configuration.guideLabelTitleDelete
             }
             else {
                 deleteButton.centerColor = configuration.deleteButtonBackgroundColorNormal
                 guideLabel.isHidden = true
                 durationLabel.isHidden = false
-                guideLabel.text = configuration.guideTextNormal
+                guideLabel.text = configuration.guideLabelTitleNormal
             }
             deleteButton.setNeedsDisplay()
         }
@@ -97,14 +97,15 @@ public class VoiceInput: UIView {
         }
     }
 
-    private let voiceManager = VoiceManager()
+    private var voiceManager: VoiceManager!
 
     // 刷新时长的 timer
-    var timer: Timer?
+    private var timer: Timer?
 
     public convenience init(configuration: VoiceInputConfiguration) {
         self.init()
         self.configuration = configuration
+        self.voiceManager = VoiceManager(configuration: configuration)
         setup()
     }
 
@@ -118,16 +119,16 @@ public class VoiceInput: UIView {
 
     private func setup() {
         voiceManager.onPermissionsGranted = {
-            self.delegate?.voiceInputDidPermissionsGranted(self)
+            self.delegate.voiceInputDidPermissionsGranted(self)
         }
         voiceManager.onPermissionsDenied = {
-            self.delegate?.voiceInputDidPermissionsDenied(self)
+            self.delegate.voiceInputDidPermissionsDenied(self)
         }
         voiceManager.onRecordWithoutPermissions = {
-            self.delegate?.voiceInputWillRecordWithoutPermissions(self)
+            self.delegate.voiceInputWillRecordWithoutPermissions(self)
         }
         voiceManager.onRecordDurationLessThanMinDuration = {
-            self.delegate?.voiceInputDidRecordDurationLessThanMinDuration(self)
+            self.delegate.voiceInputDidRecordDurationLessThanMinDuration(self)
         }
         voiceManager.onFinishRecord = { success in
             self.finishRecord()
@@ -229,7 +230,7 @@ public class VoiceInput: UIView {
                 voiceManager.deleteFile()
             }
             else {
-                delegate?.voiceInputDidFinishRecord(self, voiceManager.filePath, voiceManager.fileDuration)
+                delegate.voiceInputDidFinishRecord(self, voiceManager.filePath, voiceManager.fileDuration)
             }
         }
 
@@ -265,12 +266,7 @@ public class VoiceInput: UIView {
 
     private func stopPlay() {
 
-        do {
-            try voiceManager.stopPlay()
-        }
-        catch {
-            print(error.localizedDescription)
-        }
+        voiceManager.stopPlay()
 
         finishPlay()
 
@@ -301,7 +297,7 @@ public class VoiceInput: UIView {
     private func send() {
         stopPlay()
         isPreviewing = false
-        delegate?.voiceInputDidFinishRecord(self, voiceManager.filePath, voiceManager.fileDuration)
+        delegate.voiceInputDidFinishRecord(self, voiceManager.filePath, voiceManager.fileDuration)
     }
 
 }
@@ -398,7 +394,7 @@ extension VoiceInput {
 
     private func addGuideLabel() {
 
-        guideLabel.text = configuration.guideTextNormal
+        guideLabel.text = configuration.guideLabelTitleNormal
         guideLabel.textColor = configuration.guideLabelTextColor
         guideLabel.font = configuration.guideLabelTextFont
 
@@ -518,6 +514,8 @@ extension VoiceInput {
         cancelButton.setBackgroundColor(color: configuration.footerButtonBackgroundColorNormal, for: .normal)
         cancelButton.setBackgroundColor(color: configuration.footerButtonBackgroundColorPressed, for: .highlighted)
 
+        cancelButton.setTopBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
+        
         cancelButton.onClick = {
             self.cancel()
         }
@@ -546,19 +544,13 @@ extension VoiceInput {
 
         sendButton.setBackgroundColor(color: configuration.footerButtonBackgroundColorNormal, for: .normal)
         sendButton.setBackgroundColor(color: configuration.footerButtonBackgroundColorPressed, for: .highlighted)
+        
+        sendButton.setLeftBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
+        sendButton.setTopBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
 
         sendButton.onClick = {
             self.send()
         }
-
-    }
-
-    public override func layoutSubviews() {
-
-        cancelButton.setTopBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
-
-        sendButton.setLeftBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
-        sendButton.setTopBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
 
     }
 
@@ -588,7 +580,7 @@ extension VoiceInput: CircleViewDelegate {
         }
     }
 
-    public func circleViewDidTouchUp(_ circleView: CircleView, _ inside: Bool) {
+    public func circleViewDidTouchUp(_ circleView: CircleView, _ inside: Bool, _ isLongPress: Bool) {
         if circleView == recordButton {
             stopRecord()
         }
