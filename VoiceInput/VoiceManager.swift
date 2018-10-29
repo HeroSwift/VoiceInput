@@ -134,6 +134,7 @@ class VoiceManager: NSObject {
 
         if !requestPermissions() {
             onRecordWithoutPermissions?()
+            return
         }
         
         filePath = getFilePath(dirname: configuration.fileDir, extname: configuration.fileExtname)

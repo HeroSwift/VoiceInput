@@ -255,7 +255,9 @@ public class VoiceInput: UIView {
             if voiceManager.isPlaying {
                 playButton.centerImage = configuration.stopButtonImage
                 playButton.setNeedsDisplay()
-                startTimer(interval: 1 / 60, selector: #selector(VoiceInput.onProgressUpdate))
+                // interval 设小一点才能看到进度条走完
+                // 否则就是还剩一段就结束了
+                startTimer(interval: 1 / 200, selector: #selector(VoiceInput.onProgressUpdate))
             }
         }
         catch {
@@ -564,15 +566,7 @@ extension VoiceInput: CircleViewDelegate {
 
     public func circleViewDidTouchDown(_ circleView: CircleView) {
         if circleView == recordButton {
-            if !voiceManager.requestPermissions() {
-                return
-            }
-            if voiceManager.isRecording {
-                stopRecord()
-            }
-            else {
-                startRecord()
-            }
+            startRecord()
         }
         else if circleView == playButton {
             playButton.centerColor = configuration.playButtonCenterColorPressed
@@ -582,7 +576,9 @@ extension VoiceInput: CircleViewDelegate {
 
     public func circleViewDidTouchUp(_ circleView: CircleView, _ inside: Bool, _ isLongPress: Bool) {
         if circleView == recordButton {
-            stopRecord()
+            if voiceManager.isRecording {
+                stopRecord()
+            }
         }
         else if circleView == playButton {
             playButton.centerColor = configuration.playButtonCenterColorNormal

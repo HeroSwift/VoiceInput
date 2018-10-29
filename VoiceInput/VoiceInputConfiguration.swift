@@ -4,10 +4,6 @@ import UIKit
 // 配置
 public class VoiceInputConfiguration {
     
-    //
-    // MARK: - 录制界面 配置
-    //
-    
     // 录制按钮半径
     public var recordButtonRadius: CGFloat = 60
     
@@ -24,7 +20,7 @@ public class VoiceInputConfiguration {
     public var recordButtonBackgroundColorNormal = UIColor(red: 1.00, green: 0.61, blue: 0.00, alpha: 1.00)
     
     // 录制按钮按下时的背景色
-    public var recordButtonBackgroundColorPressed = UIColor(red: 0.99, green: 0.45, blue: 0.04, alpha: 1.00)
+    public var recordButtonBackgroundColorPressed = UIColor(red: 0.99, green: 0.56, blue: 0.01, alpha: 1.00)
     
     // 试听按钮半径
     public var previewButtonRadius: CGFloat = 30
