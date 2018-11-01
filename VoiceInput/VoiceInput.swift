@@ -36,8 +36,6 @@ public class VoiceInput: UIView {
     // MARK: - 其他属性
     //
 
-    private var configuration: VoiceInputConfiguration!
-
     private var isPreviewButtonPressed = false {
         didSet {
             if oldValue == isPreviewButtonPressed {
@@ -96,6 +94,8 @@ public class VoiceInput: UIView {
             }
         }
     }
+    
+    private var configuration: VoiceInputConfiguration!
 
     private var voiceManager: VoiceManager!
 
@@ -118,6 +118,9 @@ public class VoiceInput: UIView {
     }
 
     private func setup() {
+        
+        backgroundColor = configuration.backgroundColor
+        
         voiceManager.onPermissionsGranted = {
             self.delegate.voiceInputDidPermissionsGranted(self)
         }
@@ -338,8 +341,8 @@ extension VoiceInput {
         recordButton.centerRadius = configuration.recordButtonRadius
         recordButton.centerColor = configuration.recordButtonBackgroundColorNormal
         recordButton.centerImage = configuration.recordButtonImage
-        recordButton.ringWidth = configuration.previewButtonBorderWidth
-        recordButton.ringColor = configuration.previewButtonBorderColor
+        recordButton.ringWidth = configuration.recordButtonBorderWidth
+        recordButton.ringColor = configuration.recordButtonBorderColor
 
         recordButton.translatesAutoresizingMaskIntoConstraints = false
 

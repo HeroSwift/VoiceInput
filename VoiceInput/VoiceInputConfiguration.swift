@@ -4,6 +4,9 @@ import UIKit
 // 配置
 public class VoiceInputConfiguration {
     
+    // 背景色
+    public var backgroundColor = UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 1)
+    
     // 录制按钮半径
     public var recordButtonRadius: CGFloat = 60
     
@@ -11,7 +14,7 @@ public class VoiceInputConfiguration {
     public var recordButtonImage = UIImage(named: "mic", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 录制按钮边框大小
-    public var recordButtonBorderWidth = 0
+    public var recordButtonBorderWidth: CGFloat = 0
     
     // 录制按钮边框颜色
     public var recordButtonBorderColor = UIColor(red: 187 / 255, green: 187 / 255, blue: 187 / 255, alpha: 1)
