@@ -8,7 +8,7 @@ public class VoiceInputConfiguration {
     public var backgroundColor = UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 1)
     
     // 录制按钮半径
-    public var recordButtonRadius: CGFloat = 60
+    public var recordButtonRadius: CGFloat = 50
     
     // 录制按钮图标
     public var recordButtonImage = UIImage(named: "mic", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
@@ -26,7 +26,7 @@ public class VoiceInputConfiguration {
     public var recordButtonBackgroundColorPressed = UIColor(red: 0.99, green: 0.56, blue: 0.01, alpha: 1.00)
     
     // 试听按钮半径
-    public var previewButtonRadius: CGFloat = 30
+    public var previewButtonRadius: CGFloat = 25
     
     // 试听按钮图标
     public var previewButtonImage = UIImage(named: "preview", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
@@ -47,7 +47,7 @@ public class VoiceInputConfiguration {
     public var previewButtonMarginRight: CGFloat = 35
     
     // 删除按钮半径
-    public var deleteButtonRadius: CGFloat = 30
+    public var deleteButtonRadius: CGFloat = 25
     
     // 删除按钮图标
     public var deleteButtonImage = UIImage(named: "delete", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
@@ -65,7 +65,7 @@ public class VoiceInputConfiguration {
     public var deleteButtonBackgroundColorHover = UIColor(red: 243 / 255, green: 243 / 255, blue: 243 / 255, alpha: 1)
     
     // 删除按钮与录制按钮的距离
-    public var deleteButtonMarginLeft: CGFloat = 35
+    public var deleteButtonMarginLeft: CGFloat = 25
     
     // 录音引导文本颜色
     public var guideLabelTextColor = UIColor(red: 160 / 255, green: 160 / 255, blue: 160 / 255, alpha: 1)
@@ -74,7 +74,7 @@ public class VoiceInputConfiguration {
     public var guideLabelTextFont = UIFont.systemFont(ofSize: 15)
     
     // 录音引导文本与录音按钮的距离
-    public var guideLabelMarginBottom: CGFloat = 30
+    public var guideLabelMarginBottom: CGFloat = 25
     
     // 录音引导文本 - 未按下
     public var guideLabelTitleNormal = "按住说话"
@@ -92,7 +92,7 @@ public class VoiceInputConfiguration {
     public var durationLabelTextFont = UIFont.systemFont(ofSize: 15)
     
     // 正在录音的时长文本与录音按钮的距离
-    public var durationLabelMarginBottom: CGFloat = 30
+    public var durationLabelMarginBottom: CGFloat = 25
     
     // 试听的进度文本颜色
     public var progressLabelTextColor = UIColor(red: 160 / 255, green: 160 / 255, blue: 160 / 255, alpha: 1)
@@ -104,7 +104,7 @@ public class VoiceInputConfiguration {
     public var progressLabelMarginBottom: CGFloat = 25
     
     // 播放按钮半径
-    public var playButtonCenterRadius: CGFloat = 56
+    public var playButtonCenterRadius: CGFloat = 46
     
     // 播放按钮中间的默认颜色
     public var playButtonCenterColorNormal = UIColor.white

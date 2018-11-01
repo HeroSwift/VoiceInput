@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9D001B74217EC63D00104861 /* VoiceInputConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */; };
-		9D001B7B21806A0000104861 /* SimpleButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7921806A0000104861 /* SimpleButton.framework */; };
-		9D001B7C21806A0000104861 /* CircleView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7A21806A0000104861 /* CircleView.framework */; };
+		9D511269218ADB7A00886938 /* CircleView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7A21806A0000104861 /* CircleView.framework */; };
+		9D51126A218ADB7A00886938 /* SimpleButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7921806A0000104861 /* SimpleButton.framework */; };
 		9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C612126F0170050F376 /* VoiceManager.swift */; };
 		9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B9421245D8F0050F376 /* VoiceInput.swift */; };
 		9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */; };
@@ -55,6 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D511269218ADB7A00886938 /* CircleView.framework in Frameworks */,
+				9D51126A218ADB7A00886938 /* SimpleButton.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,8 +64,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D001B7B21806A0000104861 /* SimpleButton.framework in Frameworks */,
-				9D001B7C21806A0000104861 /* CircleView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +145,7 @@
 				9DD98B6E21245D630050F376 /* Frameworks */,
 				9DD98B6F21245D630050F376 /* Headers */,
 				9DD98B7021245D630050F376 /* Resources */,
+				9D511268218ADB3200886938 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -162,7 +163,6 @@
 				9DD98B7D21245D730050F376 /* Sources */,
 				9DD98B7E21245D730050F376 /* Frameworks */,
 				9DD98B7F21245D730050F376 /* Resources */,
-				9D001B7D21806A2300104861 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -234,7 +234,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		9D001B7D21806A2300104861 /* ShellScript */ = {
+		9D511268218ADB3200886938 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -244,8 +244,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SimpleButton.framework",
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CircleView.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SimpleButton.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -436,10 +434,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = VoiceInput/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -472,10 +467,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				INFOPLIST_FILE = VoiceInput/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -501,10 +493,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = N276SVAZ33;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -526,10 +515,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = N276SVAZ33;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
