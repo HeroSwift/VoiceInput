@@ -233,7 +233,7 @@ public class VoiceInput: UIView {
                 voiceManager.deleteFile()
             }
             else {
-                delegate.voiceInputDidFinishRecord(self, voiceManager.filePath, voiceManager.fileDuration)
+                delegate.voiceInputDidFinishRecord(self, audioPath: voiceManager.filePath, audioDuration: voiceManager.fileDuration)
             }
         }
 
@@ -302,7 +302,7 @@ public class VoiceInput: UIView {
     private func send() {
         stopPlay()
         isPreviewing = false
-        delegate.voiceInputDidFinishRecord(self, voiceManager.filePath, voiceManager.fileDuration)
+        delegate.voiceInputDidFinishRecord(self, audioPath: voiceManager.filePath, audioDuration: voiceManager.fileDuration)
     }
 
 }

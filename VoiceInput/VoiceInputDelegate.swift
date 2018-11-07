@@ -7,7 +7,7 @@ public protocol VoiceInputDelegate {
     func voiceInputWillRecordWithoutPermissions(_ voiceInput: VoiceInput)
     
     // 录音结束或点击发送时触发
-    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, _ filePath: String, _ duration: TimeInterval)
+    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, audioPath: String, audioDuration: TimeInterval)
     
     // 录音时间太短
     func voiceInputDidRecordDurationLessThanMinDuration(_ voiceInput: VoiceInput)
@@ -24,7 +24,7 @@ public extension VoiceInputDelegate {
     
     func voiceInputWillRecordWithoutPermissions(_ voiceInput: VoiceInput) { }
     
-    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, _ filePath: String, _ duration: TimeInterval) { }
+    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, audioPath: String, audioDuration: TimeInterval) { }
     
     func voiceInputDidRecordDurationLessThanMinDuration(_ voiceInput: VoiceInput) { }
     

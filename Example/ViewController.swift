@@ -46,8 +46,8 @@ extension ViewController: VoiceInputDelegate {
         print("no permissions")
     }
     
-    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, _ filePath: String, _ duration: TimeInterval) {
-        print("\(filePath) \(duration)")
+    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, audioPath: String, audioDuration: TimeInterval) {
+        print("\(audioPath) \(audioDuration)")
     }
     
     func voiceInputDidRecordDurationLessThanMinDuration(_ voiceInput: VoiceInput) {

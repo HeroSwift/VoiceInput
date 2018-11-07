@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		9D001B74217EC63D00104861 /* VoiceInputConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */; };
+		9D23E9D6219296480033BCDD /* VoiceInput.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98B7221245D630050F376 /* VoiceInput.framework */; };
+		9D23E9D7219296480033BCDD /* VoiceInput.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98B7221245D630050F376 /* VoiceInput.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9D23E9D8219296480033BCDD /* CircleView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7A21806A0000104861 /* CircleView.framework */; };
+		9D23E9D9219296480033BCDD /* CircleView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7A21806A0000104861 /* CircleView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9D23E9DA219296480033BCDD /* SimpleButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7921806A0000104861 /* SimpleButton.framework */; };
+		9D23E9DB219296480033BCDD /* SimpleButton.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7921806A0000104861 /* SimpleButton.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9D511269218ADB7A00886938 /* CircleView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7A21806A0000104861 /* CircleView.framework */; };
 		9D51126A218ADB7A00886938 /* SimpleButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7921806A0000104861 /* SimpleButton.framework */; };
 		9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C612126F0170050F376 /* VoiceManager.swift */; };
@@ -30,6 +36,22 @@
 			remoteInfo = VoiceInput;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9D23E9DC219296480033BCDD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9D23E9D7219296480033BCDD /* VoiceInput.framework in Embed Frameworks */,
+				9D23E9DB219296480033BCDD /* SimpleButton.framework in Embed Frameworks */,
+				9D23E9D9219296480033BCDD /* CircleView.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputConfiguration.swift; sourceTree = "<group>"; };
@@ -64,6 +86,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D23E9D6219296480033BCDD /* VoiceInput.framework in Frameworks */,
+				9D23E9DA219296480033BCDD /* SimpleButton.framework in Frameworks */,
+				9D23E9D8219296480033BCDD /* CircleView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +188,7 @@
 				9DD98B7D21245D730050F376 /* Sources */,
 				9DD98B7E21245D730050F376 /* Frameworks */,
 				9DD98B7F21245D730050F376 /* Resources */,
+				9D23E9DC219296480033BCDD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -490,10 +516,14 @@
 		9DD98B9121245D740050F376 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = N276SVAZ33;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -512,10 +542,14 @@
 		9DD98B9221245D740050F376 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = N276SVAZ33;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
