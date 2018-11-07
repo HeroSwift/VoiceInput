@@ -132,7 +132,7 @@ class VoiceManager: NSObject {
 
     func startRecord() throws {
 
-        if !requestPermissions() {
+        guard requestPermissions() else {
             onRecordWithoutPermissions?()
             return
         }
