@@ -158,7 +158,7 @@ public class VoiceInputConfiguration {
     public var footerButtonBackgroundColorPressed = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
     
     // 保存录音文件的目录
-    public var fileDir = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!
+    public var fileDir = NSTemporaryDirectory()
     
     // 文件扩展名
     public var fileExtname = ".m4a"
