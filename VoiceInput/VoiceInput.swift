@@ -149,7 +149,7 @@ public class VoiceInput: UIView {
     /**
      * 请求麦克风权限
      */
-    func requestPermissions() -> Bool {
+    public func requestPermissions() -> Bool {
         return voiceManager.requestPermissions()
     }
 

@@ -20,10 +20,10 @@ public class VoiceInputConfiguration {
     public var recordButtonBorderColor = UIColor(red: 187 / 255, green: 187 / 255, blue: 187 / 255, alpha: 1)
     
     // 录制按钮默认背景色
-    public var recordButtonBackgroundColorNormal = UIColor(red: 1.00, green: 0.61, blue: 0.00, alpha: 1.00)
+    public var recordButtonBackgroundColorNormal = UIColor(red: 1.00, green: 0.61, blue: 0.00, alpha: 1)
     
     // 录制按钮按下时的背景色
-    public var recordButtonBackgroundColorPressed = UIColor(red: 0.99, green: 0.56, blue: 0.01, alpha: 1.00)
+    public var recordButtonBackgroundColorPressed = UIColor(red: 0.99, green: 0.56, blue: 0.01, alpha: 1)
     
     // 试听按钮半径
     public var previewButtonRadius: CGFloat = 25
