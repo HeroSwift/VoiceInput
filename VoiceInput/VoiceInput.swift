@@ -516,8 +516,8 @@ extension VoiceInput {
             NSLayoutConstraint(item: cancelButton, attribute: .right, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1, constant: 0)
         ])
 
-        cancelButton.setBackgroundColor(color: configuration.footerButtonBackgroundColorNormal, for: .normal)
-        cancelButton.setBackgroundColor(color: configuration.footerButtonBackgroundColorPressed, for: .highlighted)
+        cancelButton.setBackgroundColor(configuration.footerButtonBackgroundColorNormal, for: .normal)
+        cancelButton.setBackgroundColor(configuration.footerButtonBackgroundColorPressed, for: .highlighted)
 
         cancelButton.setTopBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
         
@@ -547,8 +547,8 @@ extension VoiceInput {
             NSLayoutConstraint(item: sendButton, attribute: .right, relatedBy: .equal, toItem: previewView, attribute: .right, multiplier: 1, constant: 0),
         ])
 
-        sendButton.setBackgroundColor(color: configuration.footerButtonBackgroundColorNormal, for: .normal)
-        sendButton.setBackgroundColor(color: configuration.footerButtonBackgroundColorPressed, for: .highlighted)
+        sendButton.setBackgroundColor(configuration.footerButtonBackgroundColorNormal, for: .normal)
+        sendButton.setBackgroundColor(configuration.footerButtonBackgroundColorPressed, for: .highlighted)
         
         sendButton.setLeftBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
         sendButton.setTopBorder(width: configuration.footerButtonBorderWidth, color: configuration.footerButtonBorderColor)
