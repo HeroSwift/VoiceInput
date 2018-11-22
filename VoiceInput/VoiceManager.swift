@@ -16,7 +16,10 @@ class VoiceManager: NSObject {
     // 是否正在播放
     var isPlaying: Bool {
         get {
-            return player != nil ? player!.isPlaying : false
+            guard let player = player, player.isPlaying else {
+                return false
+            }
+            return true
         }
     }
 

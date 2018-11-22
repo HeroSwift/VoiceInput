@@ -5,7 +5,7 @@ import UIKit
 public class VoiceInputConfiguration {
     
     // 背景色
-    public var backgroundColor = UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 1)
+    public var backgroundColor = UIColor.clear
     
     // 录制按钮半径
     public var recordButtonRadius: CGFloat = 50
