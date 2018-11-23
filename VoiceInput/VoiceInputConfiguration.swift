@@ -8,7 +8,7 @@ public class VoiceInputConfiguration {
     public var backgroundColor = UIColor.clear
     
     // 录制按钮半径
-    public var recordButtonRadius: CGFloat = 50
+    public var recordButtonRadius: CGFloat = 40
     
     // 录制按钮图标
     public var recordButtonImage = UIImage(named: "mic", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
@@ -104,7 +104,7 @@ public class VoiceInputConfiguration {
     public var progressLabelMarginBottom: CGFloat = 25
     
     // 播放按钮半径
-    public var playButtonCenterRadius: CGFloat = 46
+    public var playButtonCenterRadius: CGFloat = 37
     
     // 播放按钮中间的默认颜色
     public var playButtonCenterColorNormal = UIColor.white
@@ -113,7 +113,7 @@ public class VoiceInputConfiguration {
     public var playButtonCenterColorPressed = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
     
     // 播放按钮圆环的大小
-    public var playButtonRingWidth: CGFloat = 4
+    public var playButtonRingWidth: CGFloat = 3
     
     // 播放按钮圆环的颜色
     public var playButtonRingColor = UIColor(red: 230 / 255, green: 230 / 255, blue: 230 / 255, alpha: 1)
