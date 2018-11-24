@@ -38,9 +38,6 @@ public class VoiceInput: UIView {
 
     private var isPreviewButtonPressed = false {
         didSet {
-            if oldValue == isPreviewButtonPressed {
-                return
-            }
             if isPreviewButtonPressed {
                 previewButton.centerColor = configuration.previewButtonBackgroundColorHover
                 guideLabel.isHidden = false
@@ -59,9 +56,6 @@ public class VoiceInput: UIView {
 
     private var isDeleteButtonPressed = false {
         didSet {
-            if oldValue == isDeleteButtonPressed {
-                return
-            }
             if isDeleteButtonPressed {
                 deleteButton.centerColor = configuration.deleteButtonBackgroundColorHover
                 guideLabel.isHidden = false
@@ -78,11 +72,8 @@ public class VoiceInput: UIView {
         }
     }
 
-    private var isPreviewing = false {
+    var isPreviewing = false {
         didSet {
-            if oldValue == isPreviewing {
-                return
-            }
             if isPreviewing {
                 resetPreviewView()
                 recordView.isHidden = true
@@ -92,6 +83,7 @@ public class VoiceInput: UIView {
                 recordView.isHidden = false
                 previewView.isHidden = true
             }
+            delegate.voiceInputDidPreviewingChange(self, isPreviewing: isPreviewing)
         }
     }
     

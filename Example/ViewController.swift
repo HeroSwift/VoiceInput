@@ -46,6 +46,10 @@ extension ViewController: VoiceInputDelegate {
         print("no permissions")
     }
     
+    func voiceInputDidPreviewingChange(_ voiceInput: VoiceInput, isPreviewing: Bool) {
+        print("\(isPreviewing)")
+    }
+    
     func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, audioPath: String, audioDuration: TimeInterval) {
         print("\(audioPath) \(audioDuration)")
     }
