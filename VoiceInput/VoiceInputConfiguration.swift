@@ -11,7 +11,7 @@ public class VoiceInputConfiguration {
     public var recordButtonRadius: CGFloat = 40
     
     // 录制按钮图标
-    public var recordButtonImage = UIImage(named: "mic", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
+    public var recordButtonImage = UIImage(named: "record_audio", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 录制按钮边框大小
     public var recordButtonBorderWidth: CGFloat = 0
@@ -29,7 +29,7 @@ public class VoiceInputConfiguration {
     public var previewButtonRadius: CGFloat = 25
     
     // 试听按钮图标
-    public var previewButtonImage = UIImage(named: "preview", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
+    public var previewButtonImage = UIImage(named: "preview_audio", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 试听按钮边框大小
     public var previewButtonBorderWidth = 1 / UIScreen.main.scale
@@ -50,7 +50,7 @@ public class VoiceInputConfiguration {
     public var deleteButtonRadius: CGFloat = 25
     
     // 删除按钮图标
-    public var deleteButtonImage = UIImage(named: "delete", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
+    public var deleteButtonImage = UIImage(named: "delete_audio", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 删除按钮边框大小
     public var deleteButtonBorderWidth = 1 / UIScreen.main.scale
@@ -122,16 +122,16 @@ public class VoiceInputConfiguration {
     public var playButtonTrackColor = UIColor(red: 1.00, green: 0.61, blue: 0.00, alpha: 1.00)
     
     // 播放按钮图标
-    public var playButtonImage = UIImage(named: "play", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
+    public var playButtonImage = UIImage(named: "play_audio", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 停止按钮图标
-    public var stopButtonImage = UIImage(named: "stop", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
+    public var stopButtonImage = UIImage(named: "stop_audio", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
     
     // 底部的取消按钮文本
-    public var footerButtonTextCancel = "取消"
+    public var footerCancelButtonTitle = "取消"
     
     // 底部的发送按钮文本
-    public var footerButtonTextSend = "发送"
+    public var footerSendButtonTitle = "发送"
     
     // 底部按钮的 padding top
     public var footerButtonPaddingTop: CGFloat = 14

@@ -72,7 +72,7 @@ public class VoiceInput: UIView {
         }
     }
 
-    var isPreviewing = false {
+    private var isPreviewing = false {
         didSet {
             if isPreviewing {
                 resetPreviewView()
@@ -490,7 +490,7 @@ extension VoiceInput {
 
     private func addCancelButton() {
 
-        cancelButton.setTitle(configuration.footerButtonTextCancel, for: .normal)
+        cancelButton.setTitle(configuration.footerCancelButtonTitle, for: .normal)
         cancelButton.setTitleColor(configuration.footerButtonTextColor, for: .normal)
 
         cancelButton.titleLabel?.font = configuration.footerButtonTextFont
@@ -521,7 +521,7 @@ extension VoiceInput {
 
     private func addSendButton() {
 
-        sendButton.setTitle(configuration.footerButtonTextSend, for: .normal)
+        sendButton.setTitle(configuration.footerSendButtonTitle, for: .normal)
         sendButton.setTitleColor(configuration.footerButtonTextColor, for: .normal)
 
         sendButton.titleLabel?.font = configuration.footerButtonTextFont
