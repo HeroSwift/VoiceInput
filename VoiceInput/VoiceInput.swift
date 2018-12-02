@@ -165,7 +165,7 @@ public class VoiceInput: UIView {
 
         // 接近就直接 1 吧
         // 避免总是不能满圆的情况
-        var trackValue = voiceManager.progress / voiceManager.fileDuration
+        var trackValue = Double(voiceManager.progress) / Double(voiceManager.fileDuration)
         if (trackValue > 0.99) {
             trackValue = 1
         }
@@ -632,10 +632,10 @@ extension VoiceInput: CircleViewDelegate {
 
 extension VoiceInput {
 
-    private func formatDuration(_ duration: Double) -> String {
+    private func formatDuration(_ millisecond: Int) -> String {
 
-        var value = Int(duration)
-        if duration < 0 {
+        var value = millisecond / 1000
+        if millisecond < 0 {
             value = 0
         }
 

@@ -50,7 +50,7 @@ extension ViewController: VoiceInputDelegate {
         print("\(isPreviewing)")
     }
     
-    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, audioPath: String, audioDuration: TimeInterval) {
+    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, audioPath: String, audioDuration: Int) {
         print("\(audioPath) \(audioDuration)")
     }
     

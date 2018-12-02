@@ -10,7 +10,7 @@ public protocol VoiceInputDelegate {
     func voiceInputDidPreviewingChange(_ voiceInput: VoiceInput, isPreviewing: Bool)
     
     // 录音结束或点击发送时触发
-    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, audioPath: String, audioDuration: TimeInterval)
+    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, audioPath: String, audioDuration: Int)
     
     // 录音时间太短
     func voiceInputDidRecordDurationLessThanMinDuration(_ voiceInput: VoiceInput)
@@ -29,7 +29,7 @@ public extension VoiceInputDelegate {
     
     func voiceInputDidPreviewingChange(_ voiceInput: VoiceInput, isPreviewing: Bool) { }
     
-    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, audioPath: String, audioDuration: TimeInterval) { }
+    func voiceInputDidFinishRecord(_ voiceInput: VoiceInput, audioPath: String, audioDuration: Int) { }
     
     func voiceInputDidRecordDurationLessThanMinDuration(_ voiceInput: VoiceInput) { }
     

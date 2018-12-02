@@ -11,7 +11,7 @@ public class VoiceInputConfiguration {
     public var recordButtonRadius: CGFloat = 40
     
     // 录制按钮图标
-    public var recordButtonImage = UIImage(named: "record_audio", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
+    public var recordButtonImage = UIImage(named: "voice_input_mic")
     
     // 录制按钮边框大小
     public var recordButtonBorderWidth: CGFloat = 0
@@ -29,7 +29,7 @@ public class VoiceInputConfiguration {
     public var previewButtonRadius: CGFloat = 25
     
     // 试听按钮图标
-    public var previewButtonImage = UIImage(named: "preview_audio", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
+    public var previewButtonImage = UIImage(named: "voice_input_preview")
     
     // 试听按钮边框大小
     public var previewButtonBorderWidth = 1 / UIScreen.main.scale
@@ -50,7 +50,7 @@ public class VoiceInputConfiguration {
     public var deleteButtonRadius: CGFloat = 25
     
     // 删除按钮图标
-    public var deleteButtonImage = UIImage(named: "delete_audio", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
+    public var deleteButtonImage = UIImage(named: "voice_input_delete")
     
     // 删除按钮边框大小
     public var deleteButtonBorderWidth = 1 / UIScreen.main.scale
@@ -122,10 +122,10 @@ public class VoiceInputConfiguration {
     public var playButtonTrackColor = UIColor(red: 1.00, green: 0.61, blue: 0.00, alpha: 1.00)
     
     // 播放按钮图标
-    public var playButtonImage = UIImage(named: "play_audio", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
+    public var playButtonImage = UIImage(named: "voice_input_play")
     
     // 停止按钮图标
-    public var stopButtonImage = UIImage(named: "stop_audio", in: Bundle(for: VoiceInputConfiguration.self), compatibleWith: nil)
+    public var stopButtonImage = UIImage(named: "voice_input_stop")
     
     // 底部的取消按钮文本
     public var footerCancelButtonTitle = "取消"
@@ -164,10 +164,10 @@ public class VoiceInputConfiguration {
     public var fileExtname = ".m4a"
 
     // 支持的最短录音时长
-    var minDuration: TimeInterval = 1
+    var minDuration: Int = 1000
     
     // 支持的最长录音时长
-    var maxDuration: TimeInterval = 60
+    var maxDuration: Int = 60000
     
     public init() { }
     

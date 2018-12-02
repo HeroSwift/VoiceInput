@@ -41,20 +41,20 @@ class VoiceManager: NSObject {
     // 当前正在录音的文件路径
     var filePath = ""
     
-    // 录音文件的时长
-    var fileDuration: TimeInterval = 0
+    // 录音文件的时长，单位毫秒
+    var fileDuration:  Int = 0
 
     // 外部实时读取的录音时长
-    var duration: Double {
+    var duration: Int {
         get {
-            return recorder != nil ? recorder!.currentTime : 0
+            return recorder != nil ? timeInterval2Millisecond(recorder!.currentTime) : 0
         }
     }
 
     // 外部实时读取的播放进度
-    var progress: Double {
+    var progress: Int {
         get {
-            return player != nil ? player!.currentTime : 0
+            return player != nil ? timeInterval2Millisecond(player!.currentTime) : 0
         }
     }
 
@@ -170,7 +170,9 @@ class VoiceManager: NSObject {
             recorder.delegate = self
             recorder.isMeteringEnabled = true
             recorder.prepareToRecord()
-            recorder.record(forDuration: configuration.maxDuration)
+            
+            let duration = configuration.maxDuration / 1000
+            recorder.record(forDuration: TimeInterval(duration))
 
         }
 
@@ -183,7 +185,7 @@ class VoiceManager: NSObject {
         }
 
         if let recorder = recorder {
-            fileDuration = recorder.currentTime
+            fileDuration = timeInterval2Millisecond(recorder.currentTime)
             recorder.stop()
         }
 
@@ -191,7 +193,7 @@ class VoiceManager: NSObject {
         setSessionActive(false)
 
     }
-
+    
     func startPlay() throws {
 
         guard filePath != "" else {
@@ -321,6 +323,10 @@ extension VoiceManager {
         
         return "\(dirname)/\(filename)"
         
+    }
+    
+    func timeInterval2Millisecond(_ timeInterval: TimeInterval) -> Int {
+        return Int(timeInterval * 1000)
     }
     
 }
