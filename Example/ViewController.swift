@@ -15,7 +15,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let input = VoiceInput(configuration: VoiceInputConfiguration())
+        let configuration = VoiceInputConfiguration()
+        configuration.audioMaxDuration = 5 * 1000
+        let input = VoiceInput(configuration: configuration)
         
         view.backgroundColor = UIColor(red: 240 / 255, green: 240 / 255, blue: 240 / 255, alpha: 1)
         

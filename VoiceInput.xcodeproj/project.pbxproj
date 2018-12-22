@@ -19,6 +19,9 @@
 		9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C612126F0170050F376 /* VoiceManager.swift */; };
 		9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B9421245D8F0050F376 /* VoiceInput.swift */; };
 		9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */; };
+		9D76B7C921CE7EE600A516C6 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D76B7C621CE7EE600A516C6 /* CircleView.swift */; };
+		9D76B7CB21CE7EE600A516C6 /* CircleViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D76B7C821CE7EE600A516C6 /* CircleViewDelegate.swift */; };
+		9D76B7CF21CE7EF100A516C6 /* SimpleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D76B7CD21CE7EF100A516C6 /* SimpleButton.swift */; };
 		9DD98B8421245D730050F376 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B8321245D730050F376 /* AppDelegate.swift */; };
 		9DD98B8621245D740050F376 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B8521245D740050F376 /* ViewController.swift */; };
 		9DD98B8921245D740050F376 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DD98B8721245D740050F376 /* Main.storyboard */; };
@@ -56,6 +59,9 @@
 		9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputConfiguration.swift; sourceTree = "<group>"; };
 		9D001B7921806A0000104861 /* SimpleButton.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SimpleButton.framework; path = Carthage/Build/iOS/SimpleButton.framework; sourceTree = "<group>"; };
 		9D001B7A21806A0000104861 /* CircleView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CircleView.framework; path = Carthage/Build/iOS/CircleView.framework; sourceTree = "<group>"; };
+		9D76B7C621CE7EE600A516C6 /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		9D76B7C821CE7EE600A516C6 /* CircleViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleViewDelegate.swift; sourceTree = "<group>"; };
+		9D76B7CD21CE7EF100A516C6 /* SimpleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleButton.swift; sourceTree = "<group>"; };
 		9DD98B7221245D630050F376 /* VoiceInput.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VoiceInput.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DD98B7621245D630050F376 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9DD98B8121245D730050F376 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +99,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9D76B7C521CE7EE600A516C6 /* CircleView */ = {
+			isa = PBXGroup;
+			children = (
+				9D76B7C621CE7EE600A516C6 /* CircleView.swift */,
+				9D76B7C821CE7EE600A516C6 /* CircleViewDelegate.swift */,
+			);
+			path = CircleView;
+			sourceTree = "<group>";
+		};
+		9D76B7CC21CE7EF100A516C6 /* SimpleButton */ = {
+			isa = PBXGroup;
+			children = (
+				9D76B7CD21CE7EF100A516C6 /* SimpleButton.swift */,
+			);
+			path = SimpleButton;
+			sourceTree = "<group>";
+		};
 		9DD98B6821245D630050F376 = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +138,8 @@
 		9DD98B7421245D630050F376 /* VoiceInput */ = {
 			isa = PBXGroup;
 			children = (
+				9D76B7CC21CE7EF100A516C6 /* SimpleButton */,
+				9D76B7C521CE7EE600A516C6 /* CircleView */,
 				9DD98C612126F0170050F376 /* VoiceManager.swift */,
 				9DD98B9421245D8F0050F376 /* VoiceInput.swift */,
 				9DD98B7621245D630050F376 /* Info.plist */,
@@ -279,6 +304,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */,
+				9D76B7CB21CE7EE600A516C6 /* CircleViewDelegate.swift in Sources */,
+				9D76B7C921CE7EE600A516C6 /* CircleView.swift in Sources */,
+				9D76B7CF21CE7EF100A516C6 /* SimpleButton.swift in Sources */,
 				9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */,
 				9D001B74217EC63D00104861 /* VoiceInputConfiguration.swift in Sources */,
 				9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */,
