@@ -36,6 +36,9 @@ public class VoiceInput: UIView {
 
     private var isPreviewButtonPressed = false {
         didSet {
+            if oldValue == isPreviewButtonPressed {
+                return
+            }
             if isPreviewButtonPressed {
                 previewButton.centerColor = configuration.previewButtonBackgroundColorHover
                 guideLabel.isHidden = false
@@ -54,6 +57,9 @@ public class VoiceInput: UIView {
 
     private var isDeleteButtonPressed = false {
         didSet {
+            if oldValue == isDeleteButtonPressed {
+                return
+            }
             if isDeleteButtonPressed {
                 deleteButton.centerColor = configuration.deleteButtonBackgroundColorHover
                 guideLabel.isHidden = false
@@ -592,7 +598,7 @@ extension VoiceInput: CircleViewDelegate {
     }
 
     public func circleViewDidTouchMove(_ circleView: CircleView, _ x: CGFloat, _ y: CGFloat) {
-        if circleView == recordButton {
+        if circleView == recordButton && voiceManager.isRecording {
 
             let offsetY = y - configuration.recordButtonRadius
 
