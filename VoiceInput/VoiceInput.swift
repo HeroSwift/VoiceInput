@@ -344,6 +344,7 @@ extension VoiceInput {
 
     private func addPreviewButton() {
 
+        previewButton.delegate = self
         previewButton.isHidden = true
 
         previewButton.centerRadius = configuration.previewButtonRadius
@@ -365,6 +366,7 @@ extension VoiceInput {
 
     private func addDeleteButton() {
 
+        deleteButton.delegate = self
         deleteButton.isHidden = true
 
         deleteButton.centerRadius = configuration.deleteButtonRadius
@@ -555,9 +557,11 @@ extension VoiceInput: CircleViewDelegate {
 
     public func circleViewDidTouchDown(_ circleView: CircleView) {
         if circleView == recordButton {
+            delegate.voiceInputDidRecordButtonClick(self)
             startRecord()
         }
         else if circleView == playButton {
+            delegate.voiceInputDidPlayButtonClick(self)
             playButton.centerColor = configuration.playButtonCenterColorPressed
             playButton.setNeedsDisplay()
         }
