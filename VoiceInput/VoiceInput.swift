@@ -5,6 +5,20 @@ public class VoiceInput: UIView {
 
     public var delegate: VoiceInputDelegate!
 
+    // 让外部判断当前是否在录制
+    public var isRecording: Bool {
+        get {
+            return voiceManager.isRecording
+        }
+    }
+    
+    // 让外部判断当前是否在播放
+    public var isPlaying: Bool {
+        get {
+            return voiceManager.isPlaying
+        }
+    }
+    
     //
     // MARK: - 录制界面
     //
@@ -197,7 +211,7 @@ public class VoiceInput: UIView {
 
     }
 
-    private func stopRecord() {
+    public func stopRecord() {
 
         do {
             try voiceManager.stopRecord()
@@ -256,7 +270,7 @@ public class VoiceInput: UIView {
 
     }
 
-    private func stopPlay() {
+    public func stopPlay() {
 
         voiceManager.stopPlay()
 
