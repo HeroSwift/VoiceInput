@@ -8,14 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		9D001B74217EC63D00104861 /* VoiceInputConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */; };
-		9D23E9D6219296480033BCDD /* VoiceInput.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98B7221245D630050F376 /* VoiceInput.framework */; };
-		9D23E9D7219296480033BCDD /* VoiceInput.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9DD98B7221245D630050F376 /* VoiceInput.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9D23E9D8219296480033BCDD /* CircleView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7A21806A0000104861 /* CircleView.framework */; };
-		9D23E9D9219296480033BCDD /* CircleView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7A21806A0000104861 /* CircleView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9D23E9DA219296480033BCDD /* SimpleButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7921806A0000104861 /* SimpleButton.framework */; };
-		9D23E9DB219296480033BCDD /* SimpleButton.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7921806A0000104861 /* SimpleButton.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9D511269218ADB7A00886938 /* CircleView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7A21806A0000104861 /* CircleView.framework */; };
-		9D51126A218ADB7A00886938 /* SimpleButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D001B7921806A0000104861 /* SimpleButton.framework */; };
 		9D62928A2126F7BB00D2AF32 /* VoiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C612126F0170050F376 /* VoiceManager.swift */; };
 		9D62928B2126F7BB00D2AF32 /* VoiceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98B9421245D8F0050F376 /* VoiceInput.swift */; };
 		9D62928C2126F7BB00D2AF32 /* VoiceInputDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD98C5F2126EDEE0050F376 /* VoiceInputDelegate.swift */; };
@@ -30,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9D001B75217F31FA00104861 /* PBXContainerItemProxy */ = {
+		9D2407B021D91582006814D0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9DD98B6921245D630050F376 /* Project object */;
 			proxyType = 1;
@@ -38,22 +30,6 @@
 			remoteInfo = VoiceInput;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		9D23E9DC219296480033BCDD /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9D23E9D7219296480033BCDD /* VoiceInput.framework in Embed Frameworks */,
-				9D23E9DB219296480033BCDD /* SimpleButton.framework in Embed Frameworks */,
-				9D23E9D9219296480033BCDD /* CircleView.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9D001B73217EC63D00104861 /* VoiceInputConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceInputConfiguration.swift; sourceTree = "<group>"; };
@@ -81,8 +57,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D511269218ADB7A00886938 /* CircleView.framework in Frameworks */,
-				9D51126A218ADB7A00886938 /* SimpleButton.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,9 +64,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D23E9D6219296480033BCDD /* VoiceInput.framework in Frameworks */,
-				9D23E9DA219296480033BCDD /* SimpleButton.framework in Frameworks */,
-				9D23E9D8219296480033BCDD /* CircleView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,7 +163,6 @@
 				9DD98B6E21245D630050F376 /* Frameworks */,
 				9DD98B6F21245D630050F376 /* Headers */,
 				9DD98B7021245D630050F376 /* Resources */,
-				9D511268218ADB3200886938 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -210,12 +180,11 @@
 				9DD98B7D21245D730050F376 /* Sources */,
 				9DD98B7E21245D730050F376 /* Frameworks */,
 				9DD98B7F21245D730050F376 /* Resources */,
-				9D23E9DC219296480033BCDD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9D001B76217F31FA00104861 /* PBXTargetDependency */,
+				9D2407B121D91582006814D0 /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = Example;
@@ -229,7 +198,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = finstao;
 				TargetAttributes = {
 					9DD98B7121245D630050F376 = {
@@ -280,24 +249,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		9D511268218ADB3200886938 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/CircleView.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SimpleButton.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		9DD98B6D21245D630050F376 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -325,10 +276,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9D001B76217F31FA00104861 /* PBXTargetDependency */ = {
+		9D2407B121D91582006814D0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9DD98B7121245D630050F376 /* VoiceInput */;
-			targetProxy = 9D001B75217F31FA00104861 /* PBXContainerItemProxy */;
+			targetProxy = 9D2407B021D91582006814D0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -477,7 +428,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = N276SVAZ33;
@@ -500,7 +451,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -510,7 +461,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = N276SVAZ33;
@@ -532,7 +483,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -540,7 +491,6 @@
 		9DD98B9121245D740050F376 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = N276SVAZ33;
@@ -558,7 +508,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3fac3add-9f02-4418-8643-e17f372e3924";
 				PROVISIONING_PROFILE_SPECIFIER = "Finstao Dev";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -566,7 +516,6 @@
 		9DD98B9221245D740050F376 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = N276SVAZ33;
@@ -584,7 +533,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3fac3add-9f02-4418-8643-e17f372e3924";
 				PROVISIONING_PROFILE_SPECIFIER = "Finstao Dev";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
