@@ -44,7 +44,7 @@ class ViewController: UIViewController {
 
 extension ViewController: VoiceInputDelegate {
     
-    func voiceInputWillRecordWithoutPermissions(_ voiceInput: VoiceInput) {
+    func voiceInputDidPermissionsNotGranted(_ voiceInput: VoiceInput) {
         print("no permissions")
     }
     
